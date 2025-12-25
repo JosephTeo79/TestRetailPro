@@ -4,78 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain1 - Retail Pro Prism</title>
-<link rel="icon" type="image/png" href="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/treeview.css">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/tab-style.css">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/future-updates.css">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/style1.css">
-
 <style>
-  #bot-button { position:fixed; bottom:90px; right:20px; z-index:1000; background:#007bff; color:#fff; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer; }
-  #bot-iframe { position:fixed; bottom:160px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; display:none; z-index:999; }
+  #bot-iframe { position:fixed; bottom:20px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; }
 </style>
 </head>
 <body>
+<h1>SubMain1 Page</h1>
+<p>这里是 SubMain1 内容。</p>
 
-<!-- MOBILE HEADER -->
-<div id="mobile-header">
-  <img src="https://josephteo79.github.io/shared-library/v1.0/icon/Integrated_Retail_Logo.png" class="header-icon" alt="Logo">
-  <h1>Retail Pro Prism</h1>
-  <button id="hamburger">&#9776;</button>
-</div>
-
-<!-- LEFT MENU (保留原有结构) -->
-<div id="left-pane">
-  <div class="header-title">
-    <img src="https://josephteo79.github.io/shared-library/v1.0/icon/Integrated_Retail_Logo.png" class="header-icon">
-  </div>
-  <div id="left-menu-scroll">
-    <ul>
-      <li><a href="#" data-url="FrontOffice/POS_Training_Document.pdf" class="nav-link">POS Training Document</a></li>
-      <li><a href="#" data-title="Login Logout" data-resource="FrontOffice/Login_Logout" class="nav-link">Login Logout</a></li>
-      <li><a href="#" data-title="Open Register" data-resource="FrontOffice/Open_Register" class="nav-link">Open Register</a></li>
-    </ul>
-  </div>
-</div>
-
-<!-- Botpress -->
-<button id="bot-button">💬</button>
-<iframe id="bot-iframe"></iframe>
+<!-- Botpress iframe，URL 加 subPage 参数 -->
+<iframe id="bot-iframe" 
+        src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=YOUR_CONFIG.json&subPage=submain1">
+</iframe>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Botpress 初始化
-  const botButton = document.getElementById('bot-button');
+  // 等 Botpress Webchat ready 后，发送欢迎消息
   const botIframe = document.getElementById('bot-iframe');
-  const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
-  let botLoaded = false;
-
-  botButton.addEventListener('click', () => {
-    if(botIframe.style.display === 'none') {
-      if(!botLoaded) {
-        botIframe.src = botUrl;
-        botLoaded = true;
-      }
-      botIframe.style.display = 'block';
-    } else {
-      botIframe.style.display = 'none';
-    }
-  });
-
-  // 当 Botpress Webchat 加载完成后，发送欢迎消息
   window.addEventListener('message', function(event) {
-    if(!event.data || !event.data.type) return;
+    if (!event.data || event.data.type !== 'webchat-ready') return;
 
-    if(event.data.type === 'webchat-ready') {
-      // 发送 welcome 到 botpress
-      botIframe.contentWindow.postMessage({
-        type: 'proactive-trigger',
-        payload: { text: 'Welcome to SubMain1!' }
-      }, '*');
-    }
+    // 获取 URL query 参数 subPage
+    const urlParams = new URL(botIframe.src).searchParams;
+    const subPage = urlParams.get('subPage');
+
+    // 设置默认 welcome 消息
+    let welcomeMsg = "";
+    if (subPage === "submain1") welcomeMsg = "Welcome to SubMain1";
+    if (subPage === "submain2") welcomeMsg = "Welcome to SubMain2";
+    if (!welcomeMsg) return;
+
+    // 发送欢迎消息到 Botpress
+    botIframe.contentWindow.postMessage({
+      type: 'proactive-trigger',
+      payload: { text: welcomeMsg, subPage: subPage }
+    }, '*');
   });
-});
 </script>
-
 </body>
 </html>
