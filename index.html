@@ -1,44 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SubMain1 - Retail Pro Prism</title>
-<style>
-  #bot-iframe { position:fixed; bottom:20px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SubMain1 - Retail Pro Prism</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
 </head>
+
 <body>
-<h1>SubMain1 Page</h1>
-<p>这里是 SubMain1 内容。</p>
+  <h1>SubMain1 Page</h1>
+  <p>这里是 SubMain1 内容。</p>
 
-<!-- Botpress iframe，URL 加 subPage 参数 -->
-<iframe id="bot-iframe" 
-        src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=YOUR_CONFIG.json&subPage=submain1">
-</iframe>
+  <!-- ✅ Botpress 官方 Webchat -->
+  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 
-<script>
-  // 等 Botpress Webchat ready 后，发送欢迎消息
-  const botIframe = document.getElementById('bot-iframe');
-  window.addEventListener('message', function(event) {
-    if (!event.data || event.data.type !== 'webchat-ready') return;
+  <script>
+    window.botpressWebChat.init({
+      botId: "YOUR_BOT_ID",
+      hostUrl: "https://cdn.botpress.cloud",
+      messagingUrl: "https://messaging.botpress.cloud",
 
-    // 获取 URL query 参数 subPage
-    const urlParams = new URL(botIframe.src).searchParams;
-    const subPage = urlParams.get('subPage');
+      // ⭐⭐⭐ 重点：告诉 Botpress 当前页面是谁
+      extraData: {
+        entry: "submain1"
+      },
 
-    // 设置默认 welcome 消息
-    let welcomeMsg = "";
-    if (subPage === "submain1") welcomeMsg = "Welcome to SubMain1";
-    if (subPage === "submain2") welcomeMsg = "Welcome to SubMain2";
-    if (!welcomeMsg) return;
-
-    // 发送欢迎消息到 Botpress
-    botIframe.contentWindow.postMessage({
-      type: 'proactive-trigger',
-      payload: { text: welcomeMsg, subPage: subPage }
-    }, '*');
-  });
-</script>
+      // UI 可选
+      showPoweredBy: false,
+      enableConversationDeletion: false
+    });
+  </script>
 </body>
 </html>
