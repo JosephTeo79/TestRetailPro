@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain - Retail Pro Prism</title>
-
 <style>
   body { font-family: Arial, sans-serif; padding: 20px; }
   #bot-button {
@@ -33,24 +32,23 @@
 <!-- Botpress Webchat v1 -->
 <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 <script>
-  const entry = "SubMain";
+  const entry = "SubMain"; 
   let webchatInitialized = false;
 
   const botButton = document.getElementById('bot-button');
   botButton.addEventListener('click', () => {
-
     if (!webchatInitialized) {
       window.botpressWebChat.init({
         botId: 'XSX123E9',
         hostUrl: 'https://messaging.botpress.cloud',
         showPoweredBy: false,
-        extraStylesheet: '',  // 可加自定义 CSS
-        extraParams: { entry } // ✅ v1 用 extraParams 传 entry
+        enableConversationDeletion: false,
+        extraParams: { entry }   // ✅ 这里把 entry 传给 Flow
       });
       webchatInitialized = true;
     }
 
-    // v1 Webchat 是 toggle 显示
+    // v1 版本唯一打开/关闭方法
     window.botpressWebChat.toggle();
   });
 </script>
