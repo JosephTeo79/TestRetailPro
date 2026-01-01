@@ -2,22 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Botpress Botbassador Demo</title>
+<title>Botpress Demo</title>
 </head>
 <body>
 
-<h1>Botpress Botbassador Demo</h1>
-
+<h1>Botpress Demo</h1>
 <form id="myform">
-  <label>Name:</label><input type="text" name="name" required>
-  <label>Email:</label><input type="email" name="email" required>
+  <label>Name:</label><input type="text" name="name" required><br>
+  <label>Email:</label><input type="email" name="email" required><br>
   <button type="submit">Submit</button>
 </form>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
+<!-- 1️⃣ 用 v3.5 -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" onload="initBot()"></script>
+
 <script>
-  // --- 1️⃣ Init Botpress on page load ---
+function initBot() {
+  if (!window.botpressWebChat) {
+    console.error("Botpress WebChat not loaded!");
+    return;
+  }
+
+  // 2️⃣ 初始化
   window.botpressWebChat.init({
     botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
     clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
@@ -30,31 +36,23 @@
 
   window.botpressWebChat.isReady = false;
 
-  // --- 2️⃣ Listen for bot ready ---
+  // 3️⃣ 监听 READY
   window.botpressWebChat.onEvent((event) => {
-    if(event.type === 'LIFECYCLE.READY'){
+    if (event.type === 'LIFECYCLE.READY') {
       window.botpressWebChat.isReady = true;
-      console.log('Botpress Ready');
+      console.log("Botpress Ready");
     }
   });
 
-  // --- 3️⃣ Form submit ---
+  // 4️⃣ 表单提交
   document.getElementById('myform').addEventListener('submit', function(e){
     e.preventDefault();
+    const detail = { name: this.name.value, email: this.email.value };
+    window.botpressWebChat.sendEvent({ type:'show' });
 
-    const detail = {
-      name: this.name.value,
-      email: this.email.value,
-      position: "Botbassador"
-    };
-
-    // Show bot
-    window.botpressWebChat.sendEvent({ type: 'show' });
-
-    // Wait for bot ready to send payload
     const sendPayload = () => {
       if(window.botpressWebChat.isReady){
-        window.botpressWebChat.sendPayload({ type: 'trigger', payload: detail });
+        window.botpressWebChat.sendPayload({ type:'trigger', payload: detail });
         console.log("Payload sent:", detail);
       } else {
         setTimeout(sendPayload, 50);
@@ -62,6 +60,7 @@
     };
     sendPayload();
   });
+}
 </script>
 
 </body>
