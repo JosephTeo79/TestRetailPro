@@ -12,7 +12,7 @@
   const btn = document.getElementById('openBtn')
 
   const s = document.createElement('script')
-  s.src = 'https://cdn.botpress.cloud/webchat/v3.5/inject.js'
+  s.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'
   s.onload = () => {
     console.log('Botpress script loaded')
     btn.disabled = false
@@ -25,7 +25,7 @@
     window.botpressWebChat.init({
       botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
       clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
+      hostUrl: "https://cdn.botpress.cloud/webchat/v1",
       messagingUrl: "https://messaging.botpress.cloud"
     })
   }
