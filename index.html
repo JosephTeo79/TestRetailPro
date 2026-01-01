@@ -17,18 +17,21 @@
 
 <h2>Botpress Trigger Test</h2>
 
+<div id="bot-container" style="position: fixed; bottom: 20px; right: 20px; width: 400px; height: 500px; display: none;"></div>
+
 <button onclick="openBot('action1')">Action 1</button>
 <button onclick="openBot('action2')">Action 2</button>
 
 <script>
-const BOT_URL = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html";
 const CONFIG_URL = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
 function openBot(triggerName) {
-  const url = `${BOT_URL}?configUrl=${encodeURIComponent(CONFIG_URL)}&trigger=${encodeURIComponent(triggerName)}`;
-  window.open(url, "_blank", "width=400,height=600");
+  const container = document.getElementById('bot-container');
+  container.innerHTML = `<iframe src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${encodeURIComponent(CONFIG_URL)}&trigger=${encodeURIComponent(triggerName)}" style="width:100%;height:100%;border:none;"></iframe>`;
+  container.style.display = 'block';
 }
 </script>
+
 
 
 </body>
