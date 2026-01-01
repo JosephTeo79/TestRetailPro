@@ -9,14 +9,14 @@
 <button id="triggerBotAction1">Button1</button>
 <button id="triggerBotAction2">Button2</button>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
-        data-bot-id="XSX123E9"
-        data-config-url="https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"></script>
-
 <script>
-  window.addEventListener("load", () => {
+  // 延迟加载 inject.js，确保完全加载
+  const script = document.createElement('script');
+  script.src = "https://cdn.botpress.cloud/webchat/v3.5/inject.js";
+  script.async = true;
+  script.onload = () => {
     if (!window.botpressWebChat) {
-      console.error("Botpress failed to load");
+      console.error("Botpress failed to load after script.onload");
       return;
     }
 
@@ -48,7 +48,9 @@
         payload: customerPayload
       });
     });
-  });
+
+  };
+  document.body.appendChild(script);
 </script>
 
 </body>
