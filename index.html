@@ -39,25 +39,33 @@
 <p>点击按钮启动 Botpress。</p>
 
 <button id="bot-button">💬</button>
-<iframe id="bot-iframe"></iframe>
+<iframe id="bot-iframe" style="display:none;"></iframe>
 
+<script src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html"></script>
 <script>
+const entry = "SubMain"; // 你可以动态根据 URL 赋值
+
 const botButton = document.getElementById('bot-button');
 const botIframe = document.getElementById('bot-iframe');
 
-// ✅ 这是唯一有效 URL，extraParams 会传入 event.payload.entry
-const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&extraParams=" + encodeURIComponent(JSON.stringify({ entry: "SubMain" }));
-
-let botLoaded = false;
-
 botButton.addEventListener('click', () => {
-  if (!botLoaded) {
-    botIframe.src = botUrl;
-    botLoaded = true;
+  if (botIframe.style.display === 'none') {
+    botIframe.src = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+    botIframe.style.display = 'block';
+
+    // ❌ 发送 entry 到 Botpress Flow
+    botIframe.onload = () => {
+      botIframe.contentWindow.postMessage(
+        { type: 'custom', payload: { entry: entry } },
+        '*'
+      );
+    };
+  } else {
+    botIframe.style.display = 'none';
   }
-  botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
 });
 </script>
+
 
 </body>
 </html>
