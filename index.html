@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SubMain - Retail Pro Prism</title>
+<title>SubMain</title>
 <style>
   body { font-family: Arial, sans-serif; padding: 20px; }
   #bot-button {
@@ -29,30 +29,28 @@
 
 <button id="bot-button">💬</button>
 
-<!-- Botpress Webchat v3 -->
 <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
 const entry = "SubMain";
-let botInitialized = false;
+let initialized = false;
 
-const botButton = document.getElementById('bot-button');
-botButton.addEventListener('click', () => {
-  if (!botInitialized) {
+document.getElementById('bot-button').addEventListener('click', () => {
+  if (!initialized) {
     window.botpressWebChat.init({
       botId: "XSX123E9",
       hostUrl: "https://messaging.botpress.cloud",
       messagingUrl: "https://messaging.botpress.cloud",
       showPoweredBy: false,
       enableConversationDeletion: false,
-      extraData: { entry } // ✅ 传递给 Flow
+      extraData: { entry } // 传给 Flow
     });
-    botInitialized = true;
+    initialized = true;
   }
 
   // ✅ 打开聊天窗口
   window.botpressWebChat.open();
 
-  // 可选：发送事件给 Flow
+  // ✅ 发送自定义事件
   window.botpressWebChat.sendEvent({
     type: "custom",
     channel: "web",
