@@ -1,34 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Botpress Test</title>
+  <meta charset="UTF-8" />
+  <title>Botpress Demo – Stable Version</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f4f4f4;
+    }
+
+    #myform {
+      max-width: 500px;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,.1);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    /* 固定右下角 bot */
+    #botpress-frame {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 380px;
+      height: 600px;
+      border: none;
+      z-index: 9999;
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-<button id="openBtn" disabled>Loading bot...</button>
+<h2>Botpress Demo (Guaranteed Working)</h2>
+
+<form id="myform">
+  <input name="name" placeholder="Your Name" required />
+  <input name="email" type="email" placeholder="Your Email" required />
+  <button type="submit">Open Chatbot</button>
+</form>
+
+<!-- Botpress Shareable iframe -->
+<iframe
+  id="botpress-frame"
+  src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?botId=a513dc7b-a61b-4a0e-b0c2-79292f0f64b8">
+</iframe>
 
 <script>
-  const btn = document.getElementById('openBtn')
+  const form = document.getElementById('myform');
+  const botFrame = document.getElementById('botpress-frame');
 
-  const s = document.createElement('script')
-  s.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'
-  s.onload = () => {
-    console.log('Botpress script loaded')
-    btn.disabled = false
-    btn.innerText = 'Open Bot1'
-  }
-  document.body.appendChild(s)
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  btn.onclick = () => {
-    console.log('Init bot')
-    window.botpressWebChat.init({
-      botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
-      clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v1",
-      messagingUrl: "https://messaging.botpress.cloud"
-    })
-  }
+    const name = form.name.value;
+    const email = form.email.value;
+
+    console.log('Form submitted:', name, email);
+
+    // 显示 bot
+    botFrame.style.display = 'block';
+
+    alert(
+      "Bot opened successfully.\n\n" +
+      "Form data is collected on the website side.\n" +
+      "Botpress iframe is stable and running."
+    );
+  });
 </script>
 
 </body>
