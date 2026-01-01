@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retail Pro Prism - MVP</title>
+<title>Retail Pro Prism - Auto Trigger</title>
 <style>
   body { font-family: Arial, sans-serif; margin:0; padding:0; }
-  #bot-iframe { position:fixed; bottom:20px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; z-index:999; }
 </style>
 </head>
 <body>
@@ -14,28 +13,39 @@
 <h1>Welcome to Retail Pro Prism!</h1>
 <p>Footfallcam / Retail Pro Bot will start automatically.</p>
 
-<!-- Botpress iframe -->
-<iframe id="bot-iframe"></iframe>
-
+<!-- Botpress Web Chat -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const botIframe = document.getElementById('bot-iframe');
+window.addEventListener('load', function() {
+  // 初始化 Botpress Web Chat
+  window.botpressWebChat.init({
+    botId: 'a513dc7b-a61b-4a0e-b0c2-79292f0f64b8',
+    hostUrl: 'https://cdn.botpress.cloud/webchat/v3.5',
+    messagingUrl: 'https://messaging.botpress.cloud',
+    clientId: 'a77753bd-2319-48dd-a782-9d6ba282b204',
+    lazySocket: true,
+    showPoweredBy: true,
+    useSessionStorage: true,
+    hideWidget: false,
+    composerPlaceholder: 'Chat with bot',
+    botConversationDescription: 'This chatbot starts automatically'
+  });
 
-  // 构建 Botpress URL 并触发 submain_form
-  function buildBotUrl() {
-    const params = new URLSearchParams({
-      trigger: 'submain_form',
-      userName: 'Joseph Teo',
-      userEmail: 'hai2022my@gmail.com',
-      welcome: 'Welcome to Retail Pro Prism!'
-    });
-    return 'https://cdn.botpress.cloud/webchat/v3.5/shareable.html' +
-           '?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json' +
-           '&' + params.toString();
-  }
-
-  // 自动加载 iframe
-  botIframe.src = buildBotUrl();
+  // 页面加载后自动触发 trigger
+  window.botpressWebChat.onEvent(function(event) {
+    if (event.type === 'LIFECYCLE.READY') {
+      console.log('Bot ready, sending trigger...');
+      window.botpressWebChat.sendPayload({
+        type: 'trigger',
+        name: 'submain_form',
+        payload: {
+          userName: 'Joseph Teo',
+          userEmail: 'hai2022my@gmail.com',
+          welcome: 'Welcome to Retail Pro Prism!'
+        }
+      });
+    }
+  }, ['LIFECYCLE.READY']);
 });
 </script>
 
