@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain - Retail Pro Prism</title>
 <style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
   #bot-button {
     position: fixed;
     bottom: 20px;
@@ -26,18 +27,32 @@
 <h1>SubMain Page</h1>
 <p>这里是 SubMain 内容。</p>
 
+<!-- Botpress 按钮 -->
 <button id="bot-button">💬</button>
 
 <!-- Botpress Webchat -->
 <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  const entry = "SubMain"; // 这个值就是你要显示的 welcome 名称
+  // 想显示的 entry 名
+  const entryName = "SubMain";
+
   const botButton = document.getElementById('bot-button');
-  let webchatLoaded = false;
+  let webchatReady = false;
+
+  // 等 Botpress Webchat 完全加载
+  window.addEventListener('bpWebChatReady', () => {
+    console.log('Botpress Webchat ready');
+    webchatReady = true;
+  });
 
   botButton.addEventListener('click', () => {
-    // 初始化 Webchat，只执行一次
-    if (!webchatLoaded) {
+    if (!webchatReady) {
+      alert('Botpress Webchat not loaded yet. Please wait a few seconds.');
+      return;
+    }
+
+    // 初始化 Webchat（只执行一次）
+    if (!window.botpressWebChat.inited) {
       window.botpressWebChat.init({
         botId: "XSX123E9",
         hostUrl: "https://messaging.botpress.cloud",
@@ -45,19 +60,22 @@
         showPoweredBy: false,
         enableConversationDeletion: false
       });
-      webchatLoaded = true;
+      window.botpressWebChat.inited = true;
     }
 
-    // 打开 Webchat
-    window.botpressWebChat.toggle(); 
+    // 打开/切换 Webchat
+    window.botpressWebChat.toggle();
 
-    // 发送自定义事件，传递 entry 给 Flow
+    // 发送自定义事件到 Botpress Flow
     window.botpressWebChat.sendEvent({
       type: 'custom',
       channel: 'web',
-      payload: { entry: entry }
+      payload: { entry: entryName }
     });
   });
+
+  // ✅ 自动打开 Botpress 并发送事件（可选）
+  // window.addEventListener('load', () => botButton.click());
 </script>
 
 </body>
