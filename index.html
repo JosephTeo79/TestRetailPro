@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain Page</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
   #bot-button {
     position: fixed;
     bottom: 20px;
@@ -22,7 +21,7 @@
   }
   #bot-iframe {
     position: fixed;
-    bottom: 100px;
+    bottom: 90px;
     right: 20px;
     width: 400px;
     height: 500px;
@@ -36,29 +35,27 @@
 <body>
 
 <h1>SubMain Page</h1>
-<p>点击按钮启动 Botpress。</p>
-
 <button id="bot-button">💬</button>
-<iframe id="bot-iframe" style="display:none;"></iframe>
+<iframe id="bot-iframe"></iframe>
 
 <script>
-const entry = "SubMain"; // 这里直接写你要显示的名字
-
-const botButton = document.getElementById('bot-button');
+const entry = "SubMain"; // 这里设置要显示的名称
 const botIframe = document.getElementById('bot-iframe');
+const botButton = document.getElementById('bot-button');
+const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
 botButton.addEventListener('click', () => {
   if (botIframe.style.display === 'none') {
-    botIframe.src = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+    botIframe.src = botUrl;
     botIframe.style.display = 'block';
 
-    // ❗ 等 iframe 加载完再发送 event
+    // 等 iframe 加载完再发送自定义事件
     botIframe.onload = () => {
       botIframe.contentWindow.postMessage(
         {
           type: 'custom',
           channel: 'web',
-          payload: { entry: entry } // 这里把 entry 发送过去
+          payload: { entry: entry } // ❗ 发送 entry
         },
         '*'
       );
@@ -68,8 +65,6 @@ botButton.addEventListener('click', () => {
   }
 });
 </script>
-
-
 
 </body>
 </html>
