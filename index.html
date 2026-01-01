@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Botpress Cloud Minimal Test</title>
+  <meta charset="UTF-8">
+  <title>Botpress Test</title>
 </head>
 <body>
 
-<button id="btn1">Button 1</button>
-<button id="btn2">Button 2</button>
+<button id="triggerBotAction1">Button1</button>
+<button id="triggerBotAction2">Button2</button>
+
+<iframe id="bot-iframe" style="display:none; position:fixed; bottom:100px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; z-index:1000;"></iframe>
 
 <script>
-  // Botpress 官方推荐：先定义 onLoad
-  window.botpressWebChat = window.botpressWebChat || {};
-  window.botpressWebChat.onLoad = function () {
-    console.log("Botpress Webchat loaded");
+  const botIframe = document.getElementById('bot-iframe');
+  const botBaseUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html";
+  const botConfigUrl = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
-    document.getElementById("btn1").onclick = function () {
-      window.botpressWebChat.sendEvent({
-        type: "proactive-trigger",
-        payload: { action: "button1" }
-      });
-    };
+  // 模拟原来的 on 'webchat:ready'
+  console.log("Webchat is ready (simulated, using iframe)");
 
-    document.getElementById("btn2").onclick = function () {
-      window.botpressWebChat.sendEvent({
-        type: "proactive-trigger",
-        payload: { action: "button2" }
-      });
-    };
-  };
-</script>
+  // triggerBotAction1 点击事件
+  document.getElementById('triggerBotAction1').addEventListener('click', async () => {
+    const customerPayload = { trigger: "action1" };
+    console.log('Sending payload:', customerPayload);
 
-<script
-  src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
-  data-bot-id="XSX123E9"
-  data-config-url="https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json">
+    // iframe 懒加载 + 显示
+    if (!botIframe.src) {
+      botIframe.src = `${botBaseUrl}?configUrl=${encodeURIComponent(botConfigUrl)}&trigger=${customerPayload.trigger}`;
+    }
+    botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // triggerBotAction2 点击事件
+  document.getElementById('triggerBotAction2').addEventListener('click', async () => {
+    const customerPayload = { trigger: "action2" };
+    console.log('Sending payload:', customerPayload);
+
+    if (!botIframe.src) {
+      botIframe.src = `${botBaseUrl}?configUrl=${encodeURIComponent(botConfigUrl)}&trigger=${customerPayload.trigger}`;
+    }
+    botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
+  });
 </script>
 
 </body>
