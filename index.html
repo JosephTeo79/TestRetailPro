@@ -5,8 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain - Retail Pro Prism</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  #bot-iframe { position: fixed; bottom: 20px; right: 20px; width: 400px; height: 500px; border: 1px solid #ccc; border-radius: 8px; }
+  #bot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+  }
 </style>
 </head>
 <body>
@@ -14,31 +26,38 @@
 <h1>SubMain Page</h1>
 <p>这里是 SubMain 内容。</p>
 
-<iframe id="bot-iframe"></iframe>
+<button id="bot-button">💬</button>
 
+<!-- Botpress Webchat -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  // 从 URL 拿 entry
-  const urlParams = new URLSearchParams(window.location.search);
- // const entry = urlParams.get('entry') || 'Default111';
-  const entry = 'Default111';
+  const entry = "SubMain"; // 页面标识
 
-  const botIframe = document.getElementById('bot-iframe');
-  const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+  const botButton = document.getElementById('bot-button');
+  let webchatLoaded = false;
 
-  // 加载 iframe
-  botIframe.src = botUrl;
+  botButton.addEventListener('click', () => {
+    if (!webchatLoaded) {
+      window.botpressWebChat.init({
+        botId: "XSX123E9",
+        hostUrl: "https://messaging.botpress.cloud",
+        messagingUrl: "https://messaging.botpress.cloud",
+        showPoweredBy: false,
+        enableConversationDeletion: false
+      });
+      webchatLoaded = true;
+    }
 
-  // iframe load 后发送 entry
-  botIframe.onload = () => {
-    botIframe.contentWindow.postMessage(
-      {
-        type: 'custom',
-        channel: 'web',
-        payload: { entry }
-      },
-      '*'
-    );
-  };
+    // 打开 Webchat
+    window.botpressWebChat.toggle(); // v3.5 版本 toggle 自动 open/close
+
+    // 发事件到 Botpress Flow
+    window.botpressWebChat.sendEvent({
+      type: 'custom',
+      channel: 'web',
+      payload: { entry: entry }
+    });
+  });
 </script>
 
 </body>
