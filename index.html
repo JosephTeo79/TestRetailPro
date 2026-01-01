@@ -3,35 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retail Pro Prism</title>
-<link rel="icon" type="image/png" href="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/treeview.css">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/tab-style.css">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/future-updates.css">
-<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/style1.css">
-
-<!-- PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
-</script>
-
-<!-- Lunr.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
-
+<title>Retail Pro Prism - MVP</title>
 <style>
-  #bot-iframe { 
-    position:fixed; bottom:160px; right:20px; 
-    width:400px; height:500px; 
-    border:1px solid #ccc; border-radius:8px; 
-    z-index:999; 
-  }
+  body { font-family: Arial, sans-serif; margin:0; padding:0; }
+  #bot-iframe { position:fixed; bottom:20px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; z-index:999; }
 </style>
 </head>
 <body>
 
-<h1>Retail Pro Prism</h1>
-<p>网页打开即显示 Botpress 欢迎消息。</p>
+<h1>Welcome to Retail Pro Prism!</h1>
+<p>Footfallcam / Retail Pro Bot will start automatically.</p>
 
 <!-- Botpress iframe -->
 <iframe id="bot-iframe"></iframe>
@@ -40,24 +21,21 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs
 document.addEventListener('DOMContentLoaded', function() {
   const botIframe = document.getElementById('bot-iframe');
 
-  // Botpress shareable URL + config
-  const botUrl = 'https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json';
-  
-  // iframe 自动加载
-  botIframe.src = botUrl;
+  // 构建 Botpress URL 并触发 submain_form
+  function buildBotUrl() {
+    const params = new URLSearchParams({
+      trigger: 'submain_form',
+      userName: 'Joseph Teo',
+      userEmail: 'hai2022my@gmail.com',
+      welcome: 'Welcome to Retail Pro Prism!'
+    });
+    return 'https://cdn.botpress.cloud/webchat/v3.5/shareable.html' +
+           '?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json' +
+           '&' + params.toString();
+  }
 
-  // iframe 加载完成后触发 trigger
-  botIframe.onload = function() {
-    const payload = {
-      type: 'trigger',              // 触发 trigger
-      payload: 'submain_form',      // Studio 里设置的 trigger 名称
-      metadata: {
-        message: 'Welcome to Retail Pro' // 你想显示的欢迎消息
-      }
-    };
-    // 发送到 iframe
-    botIframe.contentWindow.postMessage(payload, '*');
-  };
+  // 自动加载 iframe
+  botIframe.src = buildBotUrl();
 });
 </script>
 
