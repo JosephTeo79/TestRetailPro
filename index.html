@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Botpress Trigger Example</title>
-  <style>
-    #bot-iframe {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 400px;
-      height: 500px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      display: none;
-      z-index: 9999;
-    }
-    #triggerBotAction1, #triggerBotAction2 {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Botpress Trigger Test</title>
+<style>
+  #bot-iframe {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: none;
+    z-index: 9999;
+  }
+  button { margin: 10px; padding: 10px 20px; font-size: 16px; }
+</style>
 </head>
 <body>
 
@@ -32,21 +28,18 @@
 
 <script>
   const botIframe = document.getElementById('bot-iframe');
-  const baseBotUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=" +
-                     "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+  const baseUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
-  // 点击 Button1
+  // Button1
   document.getElementById('triggerBotAction1').addEventListener('click', () => {
-    const url = baseBotUrl + "&trigger=action1";
-    botIframe.src = url;
+    botIframe.src = baseUrl + "&trigger=action1";
     botIframe.style.display = 'block';
     console.log("Opened Webchat iframe with trigger=action1");
   });
 
-  // 点击 Button2
+  // Button2
   document.getElementById('triggerBotAction2').addEventListener('click', () => {
-    const url = baseBotUrl + "&trigger=action2";
-    botIframe.src = url;
+    botIframe.src = baseUrl + "&trigger=action2";
     botIframe.style.display = 'block';
     console.log("Opened Webchat iframe with trigger=action2");
   });
