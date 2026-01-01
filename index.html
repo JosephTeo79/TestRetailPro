@@ -2,23 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 40px; }
+  #welcome { font-size: 28px; color: #007bff; }
+  #info { margin-top: 20px; font-size: 18px; }
+</style>
 </head>
 <body>
-<h1>SubMain Page</h1>
 
-<!-- Botpress Webchat iframe -->
-<iframe id="bot-iframe" style="width:400px;height:500px;border:1px solid #ccc;"></iframe>
+<h1 id="welcome">Welcome!</h1>
+<p id="info">This page simulates SubMain.</p>
 
-<script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>
 <script>
-  window.botpressWebChat.init({
-    botId: "XSX123E9",
-    hostUrl: "https://messaging.botpress.cloud",
-    messagingUrl: "https://messaging.botpress.cloud",
-    showPoweredBy: false,
-    extraParams: { entry: "SubMain" } // 这里传递 entry
-  })
+  // 从 URL 获取 entry 参数
+  const params = new URLSearchParams(window.location.search);
+  const entry = params.get('entry') || 'Default';
+  
+  // 显示欢迎信息
+  document.getElementById('welcome').innerText = `Welcome to ${entry}!`;
+  
+  // 调试输出
+  console.log('Entry:', entry);
 </script>
 
 </body>
