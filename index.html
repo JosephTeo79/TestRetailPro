@@ -25,6 +25,15 @@
   
   // 调试输出
   console.log('Entry:', entry);
+
+  // 点击按钮跳 SubMain
+window.botpressWebChat.sendEvent({
+  type: 'custom',
+  channel: 'web',
+  payload: { entry: 'SubMain' } // 这里的 entry 就会被 Execute Code Node 获取
+});
+
+  
 </script>
 
 </body>
