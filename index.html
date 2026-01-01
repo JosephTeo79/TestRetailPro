@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SubMain - Retail Pro Prism</title>
+  <title>SubMain Page - Retail Pro Prism</title>
   <style>
     body { font-family: Arial, sans-serif; }
     #bot-button {
       position: fixed;
-      bottom: 20px;
+      bottom: 90px;
       right: 20px;
+      z-index: 1000;
       width: 60px;
       height: 60px;
       border-radius: 50%;
       background: #007bff;
-      color: white;
+      color: #fff;
       font-size: 24px;
       border: none;
       cursor: pointer;
-      z-index: 1000;
     }
     #bot-iframe {
       position: fixed;
-      bottom: 100px;
+      bottom: 160px;
       right: 20px;
       width: 400px;
       height: 500px;
@@ -34,39 +34,28 @@
   </style>
 </head>
 <body>
-
   <h1>SubMain Page</h1>
   <p>这里是 SubMain 内容。</p>
 
-  <!-- Botpress Button -->
+  <!-- Botpress 按钮 -->
   <button id="bot-button">💬</button>
 
-  <!-- Botpress iframe -->
-  <iframe id="bot-iframe"></iframe>
+  <!-- Botpress IFrame -->
+  <iframe
+    id="bot-iframe"
+    src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&extraData=%7B%22entry%22%3A%22submain%22%7D"
+    width="400"
+    height="500"
+    style="border:none; display:none;">
+  </iframe>
 
-  <!-- Botpress Webchat JS -->
-  <script src="https://cdn.botpress.cloud/webchat/v3/inject.js"></script>
   <script>
-    const botButton = document.getElementById('bot-button');
-    const botIframe = document.getElementById('bot-iframe');
-
-    // 这里传给 Bot 的 entry
-    const entry = "submain";
-
-    // iframe 指向 shareable.html + configUrl + extraData entry
-    const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&extraData=${encodeURIComponent(JSON.stringify({entry: entry}))}`;
-
-    let botLoaded = false;
-
-    botButton.addEventListener('click', () => {
-      if (!botLoaded) {
-        botIframe.src = botUrl;
-        botLoaded = true;
-      }
-      // toggle 显示/隐藏
-      botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
+    // 显示/隐藏 Bot
+    const btn = document.getElementById('bot-button');
+    const iframe = document.getElementById('bot-iframe');
+    btn.addEventListener('click', () => {
+      iframe.style.display = iframe.style.display === 'none' ? 'block' : 'none';
     });
   </script>
-
 </body>
 </html>
