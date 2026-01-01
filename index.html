@@ -23,28 +23,34 @@ button:hover { background:#0056b3;}
   <button type="submit">Submit</button>
 </form>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
+<!-- inject.js with onload -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" onload="initBot()"></script>
+
 <script>
-window.botpressWebChat.init({
-  botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
-  hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
-  messagingUrl: "https://messaging.botpress.cloud",
-  clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
-  hideWidget: true,
-  lazySocket: true,
-  useSessionStorage: true
-});
+function initBot() {
+  if (!window.botpressWebChat) return console.error("Botpress WebChat not loaded yet!");
 
-let botReady = false;
-window.botpressWebChat.isReady = false;
-window.botpressWebChat.onEvent((event) => {
-  if(event.type === 'LIFECYCLE.READY'){
-    window.botpressWebChat.isReady = true;
-    botReady = true;
-    console.log('Botpress Ready');
-  }
-});
+  window.botpressWebChat.init({
+    botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
+    hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
+    messagingUrl: "https://messaging.botpress.cloud",
+    clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
+    hideWidget: true,
+    lazySocket: true,
+    useSessionStorage: true
+  });
 
+  // 标记 bot 是否 ready
+  window.botpressWebChat.isReady = false;
+  window.botpressWebChat.onEvent((event) => {
+    if(event.type === 'LIFECYCLE.READY'){
+      window.botpressWebChat.isReady = true;
+      console.log('Botpress Ready');
+    }
+  });
+}
+
+// 表单提交事件
 document.getElementById('myform').addEventListener('submit', function(e){
   e.preventDefault();
   const detail = {
@@ -54,6 +60,7 @@ document.getElementById('myform').addEventListener('submit', function(e){
     message: this.message.value,
     position: "Botbassador"
   };
+
   // 展示聊天窗口
   window.botpressWebChat.sendEvent({ type:'show' });
 
