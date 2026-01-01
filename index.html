@@ -3,41 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Botpress Trigger Test</title>
+<title>Botpress Trigger via Button</title>
 <style>
-  button { margin: 10px; padding: 10px 20px; font-size: 16px; }
+  button {
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
 
-<button id="triggerBotAction1">Button1</button>
-<button id="triggerBotAction2">Button2</button>
+<h2>Botpress Trigger Test</h2>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
-        data-bot-id="XSX123E9"
-        data-config-url="https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json">
-</script>
+<button id="triggerBotAction1">Trigger Action 1</button>
+<button id="triggerBotAction2">Trigger Action 2</button>
 
 <script>
-window.botpressWebChat = window.botpressWebChat || {};
+  const BOT_URL = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html";
+  const CONFIG_URL = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
-// 使用 webchat:ready 确保 iframe 已经准备好
-window.botpressWebChat.onEvent = window.botpressWebChat.onEvent || function () {};
-window.botpressWebChat.onEvent('webchat:ready', () => {
-  console.log("Webchat is ready");
+  function openBotWithTrigger(triggerName) {
+    const url = `${BOT_URL}?configUrl=${encodeURIComponent(CONFIG_URL)}&trigger=${encodeURIComponent(triggerName)}`;
+    // 打开新的 Webchat iframe
+    window.open(url, "_blank", "width=400,height=600");
+  }
 
-  const sendTrigger = async (actionName) => {
-    const payload = {
-      type: "proactive-trigger",
-      payload: { action: actionName }
-    };
-    console.log("Sending payload:", payload);
-    await window.botpressWebChat.sendEvent(payload);
+  document.getElementById("triggerBotAction1").onclick = () => {
+    openBotWithTrigger("action1");
   };
 
-  document.getElementById('triggerBotAction1').addEventListener('click', () => sendTrigger("action1"));
-  document.getElementById('triggerBotAction2').addEventListener('click', () => sendTrigger("action2"));
-});
+  document.getElementById("triggerBotAction2").onclick = () => {
+    openBotWithTrigger("action2");
+  };
 </script>
 
 </body>
