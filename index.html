@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain - Retail Pro Prism</title>
+
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  h1 { color: #333; }
-  p { font-size: 16px; }
+  body { font-family: Arial, sans-serif; margin:0; padding:0; }
   #bot-button {
     position: fixed;
     bottom: 20px;
@@ -16,7 +15,7 @@
     height: 60px;
     border-radius: 50%;
     background: #007bff;
-    color: white;
+    color: #fff;
     font-size: 24px;
     border: none;
     cursor: pointer;
@@ -24,7 +23,7 @@
   }
   #bot-iframe {
     position: fixed;
-    bottom: 100px;
+    bottom: 90px;
     right: 20px;
     width: 400px;
     height: 500px;
@@ -35,31 +34,32 @@
   }
 </style>
 </head>
-<body>
 
+<body>
 <h1>SubMain Page</h1>
 <p>这里是 SubMain 内容。</p>
 
+<!-- Botpress 按钮 -->
 <button id="bot-button">💬</button>
+<!-- Botpress iframe -->
 <iframe id="bot-iframe"></iframe>
 
 <script>
-  const entry = "submain"; // 你想传给 Bot 的 entry
+  const entry = "submain"; // 给 Bot 传的 entry
   const botIframe = document.getElementById('bot-iframe');
   const botButton = document.getElementById('bot-button');
 
-  // Botpress shareable.html 的 URL
+  // Botpress shareable.html + configUrl
   const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&entry=${entry}`;
 
   botButton.addEventListener('click', () => {
     if (botIframe.style.display === 'none') {
-      botIframe.src = botUrl;  // 第一次点击才设置 src
+      botIframe.src = botUrl; // 第一次点击才加载
       botIframe.style.display = 'block';
     } else {
       botIframe.style.display = 'none';
     }
   });
 </script>
-
 </body>
 </html>
