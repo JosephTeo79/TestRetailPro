@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubMain - Retail Pro Prism</title>
-<link rel="icon" type="image/png" href="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png">
 
 <style>
   body { font-family: Arial, sans-serif; padding: 20px; }
@@ -29,41 +28,32 @@
 <h1>SubMain Page</h1>
 <p>这里是 SubMain 内容。</p>
 
-<!-- Botpress Webchat 按钮 -->
 <button id="bot-button">💬</button>
 
-<!-- Botpress JS -->
+<!-- Botpress Webchat v1 -->
 <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 <script>
-  const entry = "SubMain"; 
+  const entry = "SubMain";
   let webchatInitialized = false;
 
   const botButton = document.getElementById('bot-button');
   botButton.addEventListener('click', () => {
+
     if (!webchatInitialized) {
-      // 初始化 Webchat
       window.botpressWebChat.init({
-        botId: "XSX123E9",
-        hostUrl: "https://messaging.botpress.cloud",
-        messagingUrl: "https://messaging.botpress.cloud",
+        botId: 'XSX123E9',
+        hostUrl: 'https://messaging.botpress.cloud',
         showPoweredBy: false,
-        enableConversationDeletion: false
+        extraStylesheet: '',  // 可加自定义 CSS
+        extraParams: { entry } // ✅ v1 用 extraParams 传 entry
       });
       webchatInitialized = true;
     }
 
-    // 打开 Bot
-    window.botpressWebChat.open();
-
-    // ✅ 发送自定义事件，把 entry 传到 Flow 的 event.payload
-    window.botpressWebChat.sendEvent({
-      type: 'custom',
-      channel: 'web',
-      payload: { entry: entry }
-    });
+    // v1 Webchat 是 toggle 显示
+    window.botpressWebChat.toggle();
   });
 </script>
-
 
 </body>
 </html>
