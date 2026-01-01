@@ -102,11 +102,7 @@ Click here to apply!
         <label for="email">Email Address:</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="linkedin">Linkedin Profile URL:</label>
-        <input type="text" id="linkedin" name="linkedin" required>
 
-        <label for="message">Cover Letter/ Application Message:</label>
-        <textarea id="message" name="message" rows="7"></textarea>
 
         <button type="submit">Submit Application</button>
     </form>
@@ -150,9 +146,7 @@ document.getElementById('myform').addEventListener('submit', function(event) {
   // Trigger a custom event
   detail ={
     name: event.target.name.value,
-    email: event.target.email.value,
-    linkedin: event.target.linkedin.value,
-    message: event.target.message.value,
+    email: event.target.email.value
     position: "Botbassador"
   }
   showBot()
