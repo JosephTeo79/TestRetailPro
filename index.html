@@ -19,28 +19,25 @@
 </script>
 
 <script>
-  window.botpressWebChat = window.botpressWebChat || {};
+window.botpressWebChat = window.botpressWebChat || {};
 
-  window.botpressWebChat.onLoad = function () {
-    console.log("Webchat loaded");
+// 使用 webchat:ready 确保 iframe 已经准备好
+window.botpressWebChat.onEvent = window.botpressWebChat.onEvent || function () {};
+window.botpressWebChat.onEvent('webchat:ready', () => {
+  console.log("Webchat is ready");
 
-    const sendTrigger = async (actionName) => {
-      const payload = {
-        type: "proactive-trigger",   // 必须
-        payload: { action: actionName } // 必须
-      };
-      console.log("Sending payload:", payload);
-      await window.botpressWebChat.sendEvent(payload);
+  const sendTrigger = async (actionName) => {
+    const payload = {
+      type: "proactive-trigger",
+      payload: { action: actionName }
     };
-
-    document.getElementById('triggerBotAction1').addEventListener('click', async () => {
-      sendTrigger("action1");
-    });
-
-    document.getElementById('triggerBotAction2').addEventListener('click', async () => {
-      sendTrigger("action2");
-    });
+    console.log("Sending payload:", payload);
+    await window.botpressWebChat.sendEvent(payload);
   };
+
+  document.getElementById('triggerBotAction1').addEventListener('click', () => sendTrigger("action1"));
+  document.getElementById('triggerBotAction2').addEventListener('click', () => sendTrigger("action2"));
+});
 </script>
 
 </body>
