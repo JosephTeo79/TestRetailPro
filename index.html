@@ -1,179 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Become a Botbassador!</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 2rem;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #777;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #444;
-        }
-
-        #myform {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        input[type="text"], 
-        input[type="email"], 
-        textarea {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin-left: auto;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botpress Botbassador Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; background:#f4f4f4; color:#333; }
+    #myform { max-width:600px; margin:0 auto; padding:2rem; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+    input,textarea { width:100%; padding:0.5rem; margin-bottom:1rem; border:1px solid #ddd; border-radius:5px;}
+    button { background:#FF2B4A;color:white;padding:0.7rem 1.5rem;border:none;border-radius:5px;cursor:pointer;}
+    button:hover { background:#cc2435;}
+  </style>
 </head>
 <body>
-<h1> Botpress Botbassador Program</h1>
-<h2>
-What is this?
-</h2>
-<p>
-Through the BotBassador Program, we'll be able to recognize and reward our most dedicated builders with things like early access to beta features, exclusive swag, and additional Botpress perks.
-</p>
 
-<h2>
-Perks of becoming a BotBassador:
-</h2>
-<p>
-🥇 Priority access to beta features <br>
+<h1>Botpress Botbassador Demo</h1>
 
-🚀 2,000 monthly messages (2x the amount regular users get) <br>
+<form id="myform">
+  <label>Name:</label><input type="text" id="name" name="name" required>
+  <label>Email:</label><input type="email" id="email" name="email" required>
+  <label>LinkedIn:</label><input type="text" id="linkedin" name="linkedin" required>
+  <label>Message:</label><textarea id="message" name="message" rows="5"></textarea>
+  <button type="submit">Submit</button>
+</form>
 
-🌟 A shiny new Discord status to show off - you'll be known as a BotBassador and could eventually make your way up to BotPro!
-<br>
-🤝 An exclusive line of communication with us, the Botpress team, in a dedicated Discord channel <br>
-
-🎁 Exclusive BotBassador swag <br> <br>
-
-Our community is instrumental in building better bots, and we want to recognize and reward your dedication. Join us in shaping the future of chatbot technology while gaining recognition and awesome opportunities! </p>
-
-<a href="https://botpress.com/ambassador-program"><h2>
-Click here to apply!
-</h2></a>
-<em><strong>The following form is a demo for triggers and not the actuall Botpress ambassador application!</strong></em><br><br>
-    <form id='myform'>
-        <label for="name">Your Full Name1:</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="linkedin">Linkedin Profile URL:</label>
-        <input type="text" id="linkedin" name="linkedin" required>
-
-        <label for="message">Cover Letter/ Application Message:</label>
-        <textarea id="message" name="message" rows="7"></textarea>
-
-        <button type="submit">Submit Application</button>
-    </form>
-</body>
-<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<!-- Botpress Webchat v3.5 -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  window.botpressWebChat.init({
-      "composerPlaceholder": "Chat with bot",
-      "botConversationDescription": "This chatbot was built surprisingly fast with Botpress",
-      "botId": "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
-      "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
-      "messagingUrl": "https://messaging.botpress.cloud",
-      "clientId": "a77753bd-2319-48dd-a782-9d6ba282b204",
-      "lazySocket": true,
-      "hideWidget":true,
-      "useSessionStorage": true,
-      "enableConversationDeletion": true,
-      "showPoweredBy": true
-  });
-</script>
+  // Wait until inject.js has loaded
+  function initBot() {
+    if (!window.botpressWebChat) return console.error("Botpress not loaded yet");
 
+    window.botpressWebChat.init({
+      botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
+      clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
+      hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
+      messagingUrl: "https://messaging.botpress.cloud",
+      hideWidget: true,
+      lazySocket: true,
+      useSessionStorage: true
+    });
 
-<script>
-var detail;
-var botLoaded = false;
-var botReady = false;
-var submitted = false;
-
-function showBot(){
-	console.log("Showing bot....")
-  window.botpressWebChat.sendEvent({type:'show'})
-}
-
-function sendFormInfo(info){
-  console.log("Triggering bot with payload...")
-  window.botpressWebChat.sendPayload({ type: 'trigger', payload:info })
-}
-
-document.getElementById('myform').addEventListener('submit', function(event) {
-  event.preventDefault(); 
-  // Trigger a custom event
-  detail ={
-    name: event.target.name.value,
-    email: event.target.email.value,
-    linkedin: event.target.linkedin.value,
-    message: event.target.message.value,
-    position: "Botbassador"
-  }
-  showBot()
-  console.log("Submitting....")
-  submitted=true;
-});
-
-window.botpressWebChat.onEvent( function (event) {
-	console.log(event)
-  if(event.type === 'LIFECYCLE.LOADED'){
- 		botLoaded = true;
-  	}
-  else if(event.type === 'LIFECYCLE.READY'){
- 		botReady = true;
-    if(botLoaded && botReady && submitted){
-      sendFormInfo(detail)
+    // Track bot ready state
+    window.botpressWebChat.isReady = false;
+    window.botpressWebChat.onEvent((event) => {
+      if (event.type === 'LIFECYCLE.READY') {
+        window.botpressWebChat.isReady = true;
+        console.log('Botpress Ready');
       }
-  	}
-},['LIFECYCLE.LOADED', 'LIFECYCLE.READY']
-)
+    });
 
+    // Form submit
+    const form = document.getElementById('myform');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const detail = {
+        name: form.name.value,
+        email: form.email.value,
+        linkedin: form.linkedin.value,
+        message: form.message.value,
+        position: "Botbassador"
+      };
 
+      // Show bot window
+      window.botpressWebChat.sendEvent({ type: 'show' });
+
+      // Wait until bot ready to send payload
+      const sendPayload = () => {
+        if (window.botpressWebChat.isReady) {
+          window.botpressWebChat.sendPayload({ type: 'trigger', payload: detail });
+          console.log("Payload sent:", detail);
+        } else {
+          setTimeout(sendPayload, 50);
+        }
+      };
+      sendPayload();
+    });
+  }
+
+  // Ensure initBot is called after inject.js loads
+  if (window.botpressWebChat) {
+    initBot();
+  } else {
+    const script = document.querySelector('script[src*="inject.js"]');
+    script.addEventListener('load', initBot);
+  }
 </script>
+
+</body>
 </html>
