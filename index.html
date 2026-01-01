@@ -41,9 +41,8 @@
 <button id="bot-button">💬</button>
 <iframe id="bot-iframe" style="display:none;"></iframe>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html"></script>
 <script>
-const entry = "SubMain"; // 你可以动态根据 URL 赋值
+const entry = "SubMain"; // 这里直接写你要显示的名字
 
 const botButton = document.getElementById('bot-button');
 const botIframe = document.getElementById('bot-iframe');
@@ -53,10 +52,14 @@ botButton.addEventListener('click', () => {
     botIframe.src = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
     botIframe.style.display = 'block';
 
-    // ❌ 发送 entry 到 Botpress Flow
+    // ❗ 等 iframe 加载完再发送 event
     botIframe.onload = () => {
       botIframe.contentWindow.postMessage(
-        { type: 'custom', payload: { entry: entry } },
+        {
+          type: 'custom',
+          channel: 'web',
+          payload: { entry: entry } // 这里把 entry 发送过去
+        },
         '*'
       );
     };
@@ -65,6 +68,7 @@ botButton.addEventListener('click', () => {
   }
 });
 </script>
+
 
 
 </body>
