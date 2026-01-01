@@ -1,69 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SubMain1 - Retail Pro Prism</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    #bot-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #007bff;
-      color: white;
-      font-size: 24px;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SubMain1 - Retail Pro Prism</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  #bot-button {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 1000;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  #bot-iframe {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: none;
+    z-index: 999;
+  }
+</style>
 </head>
 <body>
-  <h1>SubMain1 Page</h1>
-  <p>这里是 SubMain1 内容。</p>
 
-  <!-- Botpress Webchat 按钮 -->
-  <button id="bot-button">💬</button>
+<h1>SubMain1 Page</h1>
+<p>这里是 SubMain1 内容。</p>
 
-  <!-- Botpress JS -->
-  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
-  <script>
-    // 想传给 Bot 的 entry
-    const entry = "submain1"; // 可改成 "RetailPro"/"Cegid"/"footfall"
-    let webchatInitialized = false;
+<button id="bot-button">💬</button>
+<iframe id="bot-iframe"></iframe>
 
-    // 等 Botpress JS 加载完再绑定按钮
-    window.addEventListener('bpLoaded', () => {
-      const botButton = document.getElementById('bot-button');
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const entry = "submain"; // 传给 Bot 的 entry
+  const botButton = document.getElementById('bot-button');
+  const botIframe = document.getElementById('bot-iframe');
+  const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+  let botLoaded = false;
 
-      botButton.addEventListener('click', () => {
-        if (!webchatInitialized) {
-          // 初始化 Webchat
-          window.botpressWebChat.init({
-            botId: "XSX123E9",      // <-- 你之前提供过的 Bot ID
-            hostUrl: "https://messaging.botpress.cloud",
-            messagingUrl: "https://messaging.botpress.cloud",
-            showPoweredBy: false,
-            enableConversationDeletion: false
-          });
-          webchatInitialized = true;
-        }
+  botButton.addEventListener('click', () => {
+    if (botIframe.style.display === 'none') {
+      botIframe.style.display = 'block';
 
-        // 打开/关闭 Webchat
-        window.botpressWebChat.toggle();
+      if (!botLoaded) {
+        botIframe.src = botUrl;
+        botLoaded = true;
 
-        // 发送自定义事件给 Bot，把 entry 传过去
-        window.botpressWebChat.sendEvent({
-          type: 'custom',
-          channel: 'web',
-          payload: { entry: entry }
-        });
-      });
-    });
-  </script>
+        botIframe.onload = () => {
+          // iframe 加载完成后，发送 entry 给 Bot
+          botIframe.contentWindow.postMessage({ type: 'custom', payload: { entry } }, '*');
+        };
+      } else {
+        // iframe 已加载，再次打开也发送 entry
+        botIframe.contentWindow.postMessage({ type: 'custom', payload: { entry } }, '*');
+      }
+
+    } else {
+      botIframe.style.display = 'none';
+    }
+  });
+});
+</script>
+
 </body>
 </html>
