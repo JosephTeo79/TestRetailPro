@@ -5,8 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retail Pro Prism MVP</title>
 <style>
-  #bot-button { position:fixed; bottom:90px; right:20px; z-index:1000; background:#007bff; color:#fff; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer; }
-  #bot-iframe { position:fixed; bottom:160px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; display:none; z-index:999; }
+  #bot-button {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 1000;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  #bot-iframe {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: none;
+    z-index: 999;
+  }
 </style>
 </head>
 <body>
@@ -16,33 +39,44 @@
 <button id="bot-button">💬</button>
 <iframe id="bot-iframe"></iframe>
 
+<!-- Botpress Webchat JS -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/botpress.webchat.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const botButton = document.getElementById('bot-button');
   const botIframe = document.getElementById('bot-iframe');
   let botLoaded = false;
 
-  // 构建 Botpress shareable URL
-  function buildBotUrl() {
-    const params = new URLSearchParams({
-      trigger: 'submain_form',      // 自动触发的 trigger
-      page: 'Retail Pro Prism',
-      userName: 'Joseph Teo',
-      userEmail: 'hai2022my@gmail.com'
-    });
-    return 'https://cdn.botpress.cloud/webchat/v3.5/shareable.html' +
-           '?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json' +
-           '&' + params.toString();
-  }
+  // Botpress shareable URL
+  const botUrl = 'https://cdn.botpress.cloud/webchat/v3.5/shareable.html' +
+                 '?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json';
 
-  // 页面打开自动显示并 trigger
+  // 初始化 iframe
   if (!botLoaded) {
-    botIframe.src = buildBotUrl();
+    botIframe.src = botUrl;
     botLoaded = true;
   }
   botIframe.style.display = 'block';
 
-  // 点击按钮切换显示/隐藏
+  // 当 iframe 加载完成后触发 Custom Trigger
+  botIframe.onload = function() {
+    // 等 iframe 内部的 botpressWebChat 初始化完
+    setTimeout(() => {
+      if (botIframe.contentWindow.botpressWebChat) {
+        botIframe.contentWindow.botpressWebChat.sendEvent({
+          type: 'form1', // 你在 Botpress Flow 里创建的 Custom Trigger 名
+          channel: 'web',
+          payload: {
+            page: 'Retail Pro Prism',
+            userName: 'Joseph Teo',
+            userEmail: 'hai2022my@gmail.com'
+          }
+        });
+      }
+    }, 500); // 等 500ms 确保 Webchat 初始化完成
+  };
+
+  // 点击按钮切换显示/隐藏聊天窗口
   botButton.addEventListener('click', function() {
     botIframe.style.display = (botIframe.style.display === 'none') ? 'block' : 'none';
   });
