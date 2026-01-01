@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SubMain - Retail Pro Prism</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SubMain1 - Retail Pro Prism</title>
 <style>
   body { font-family: Arial, sans-serif; }
   #bot-button {
@@ -34,42 +34,54 @@
 </style>
 </head>
 <body>
-<h1>SubMain Page</h1>
-<p>这里是 SubMain 内容。</p>
 
-<!-- Botpress 按钮和 iframe -->
+<h1>SubMain1 Page</h1>
+<p>这里是 SubMain1 内容。</p>
+
+<!-- Botpress Button -->
 <button id="bot-button">💬</button>
+
+<!-- Botpress iframe -->
 <iframe id="bot-iframe"></iframe>
 
 <script>
+  // 你要传给 Bot 的 entry
+  const entry = "submain"; // 这里就是 SubMain 标识
+
   const botButton = document.getElementById('bot-button');
   const botIframe = document.getElementById('bot-iframe');
 
-  // 这里直接用 shareable.html + configUrl 打开 Bot
-  const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+  // Bot iframe URL，带 entry query 参数
+  const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&entry=${entry}`;
 
-  let botLoaded = false;
+  let iframeLoaded = false;
 
   botButton.addEventListener('click', () => {
-    if (!botLoaded) {
-      // 第一次加载 iframe
+    if (!iframeLoaded) {
       botIframe.src = botUrl;
-      botLoaded = true;
-
-      // 等 iframe 加载完成再发送 SubMain 欢迎事件
-      botIframe.onload = () => {
-        // 因为不能用 extraData，我们用 custom event 模拟 SubMain
-        // 你需要在 Bot Studio 的第一个节点加一个 custom trigger: type = "custom", payload.entry = "submain"
-        botIframe.contentWindow.postMessage({
-          type: 'custom',
-          payload: { entry: 'submain', message: 'Welcome to SubMain!' }
-        }, '*');
-      };
+      iframeLoaded = true;
     }
 
-    // 显示或隐藏 iframe
+    // 切换显示/隐藏
     botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
   });
+
+  // ⚠️ 发送 entry 给 Bot（v3.5 方式）
+  window.addEventListener('message', (e) => {
+    if (!iframeLoaded) return;
+    if (e.origin.includes('botpress.cloud')) {
+      // iframe 加载完后发送 custom event
+      botIframe.contentWindow.postMessage({
+        type: 'botpress-webchat-event',
+        event: {
+          type: 'custom',
+          channel: 'web',
+          payload: { entry }
+        }
+      }, '*');
+    }
+  });
 </script>
+
 </body>
 </html>
