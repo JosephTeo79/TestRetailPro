@@ -35,8 +35,7 @@
 <!-- Botpress JS -->
 <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 <script>
-  // 这里设置要传给 Bot 的 entry
-  const entry = "SubMain"; // 这里就是你想显示的名字
+  const entry = "SubMain"; 
   let webchatInitialized = false;
 
   const botButton = document.getElementById('bot-button');
@@ -44,20 +43,27 @@
     if (!webchatInitialized) {
       // 初始化 Webchat
       window.botpressWebChat.init({
-        botId: "XSX123E9",                  // <-- 替换成你的 Bot ID
+        botId: "XSX123E9",
         hostUrl: "https://messaging.botpress.cloud",
         messagingUrl: "https://messaging.botpress.cloud",
         showPoweredBy: false,
-        enableConversationDeletion: false,
-        extraData: { entry: entry }          // ✅ 关键：传给 Flow 的 entry
+        enableConversationDeletion: false
       });
       webchatInitialized = true;
     }
 
     // 打开 Bot
     window.botpressWebChat.open();
+
+    // ✅ 发送自定义事件，把 entry 传到 Flow 的 event.payload
+    window.botpressWebChat.sendEvent({
+      type: 'custom',
+      channel: 'web',
+      payload: { entry: entry }
+    });
   });
 </script>
+
 
 </body>
 </html>
