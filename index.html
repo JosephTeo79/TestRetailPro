@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Botpress Test</title>
+  <meta charset="UTF-8" />
+  <title>Botpress Cloud Minimal Test</title>
 </head>
 <body>
 
-<button id="triggerBotAction1">Button1</button>
-<button id="triggerBotAction2">Button2</button>
+<button id="btn1">Button 1</button>
+<button id="btn2">Button 2</button>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  window.addEventListener("load", () => {
-    if (!window.botpressWebChat) {
-      console.error("Botpress failed to load")
-      return
-    }
+  // Botpress 官方推荐：先定义 onLoad
+  window.botpressWebChat = window.botpressWebChat || {};
+  window.botpressWebChat.onLoad = function () {
+    console.log("Botpress Webchat loaded");
 
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"
-    })
-
-    document.getElementById("triggerBotAction1").onclick = () => {
+    document.getElementById("btn1").onclick = function () {
       window.botpressWebChat.sendEvent({
         type: "proactive-trigger",
         payload: { action: "button1" }
-      })
-    }
+      });
+    };
 
-    document.getElementById("triggerBotAction2").onclick = () => {
+    document.getElementById("btn2").onclick = function () {
       window.botpressWebChat.sendEvent({
         type: "proactive-trigger",
         payload: { action: "button2" }
-      })
-    }
-  })
+      });
+    };
+  };
+</script>
+
+<script
+  src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
+  data-bot-id="XSX123E9"
+  data-config-url="https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json">
 </script>
 
 </body>
