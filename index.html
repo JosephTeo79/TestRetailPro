@@ -6,7 +6,20 @@
   <title>SubMain1 - Retail Pro Prism</title>
   <style>
     body { font-family: Arial, sans-serif; }
-    #bot-button { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: #007bff; color: white; font-size: 24px; border: none; cursor: pointer; z-index: 1000; }
+    #bot-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #007bff;
+      color: white;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -19,26 +32,33 @@
   <!-- Botpress JS -->
   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
   <script>
-    const entry = "submain1"; // 可改成 "RetailPro"/"Cegid"/"footfall"
+    // 你要传给 Bot 的 entry，可改成 "RetailPro"/"Cegid"/"footfall"
+    const entry = "submain1";
 
     let webchatInitialized = false;
 
     document.getElementById('bot-button').addEventListener('click', () => {
       if (!webchatInitialized) {
+        // 初始化 Webchat
         window.botpressWebChat.init({
-          botId: "YOUR_BOT_ID", // <-- 替换成你的 Bot ID
-          hostUrl: "https://cdn.botpress.cloud",
+          botId: "XSX123E9",      // <-- 我这里用你之前提供过的 Bot ID
+          hostUrl: "https://messaging.botpress.cloud",
           messagingUrl: "https://messaging.botpress.cloud",
-          extraProperties: {
-            entry: entry
-          },
           showPoweredBy: false,
           enableConversationDeletion: false
         });
         webchatInitialized = true;
       }
-      // 打开/关闭 Webchat
+
+      // 打开 Webchat
       window.botpressWebChat.toggle();
+
+      // 发送自定义事件把 entry 传给 Bot
+      window.botpressWebChat.sendEvent({
+        type: 'custom',
+        channel: 'web',
+        payload: { entry: entry }
+      });
     });
   </script>
 </body>
