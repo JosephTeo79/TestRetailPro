@@ -32,32 +32,36 @@
   <!-- Botpress JS -->
   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
   <script>
-    // 你要传给 Bot 的 entry，可改成 "RetailPro"/"Cegid"/"footfall"
-    const entry = "submain1";
-
+    // 想传给 Bot 的 entry
+    const entry = "submain1"; // 可改成 "RetailPro"/"Cegid"/"footfall"
     let webchatInitialized = false;
 
-    document.getElementById('bot-button').addEventListener('click', () => {
-      if (!webchatInitialized) {
-        // 初始化 Webchat
-        window.botpressWebChat.init({
-          botId: "XSX123E9",      // <-- 我这里用你之前提供过的 Bot ID
-          hostUrl: "https://messaging.botpress.cloud",
-          messagingUrl: "https://messaging.botpress.cloud",
-          showPoweredBy: false,
-          enableConversationDeletion: false
+    // 等 Botpress JS 加载完再绑定按钮
+    window.addEventListener('bpLoaded', () => {
+      const botButton = document.getElementById('bot-button');
+
+      botButton.addEventListener('click', () => {
+        if (!webchatInitialized) {
+          // 初始化 Webchat
+          window.botpressWebChat.init({
+            botId: "XSX123E9",      // <-- 你之前提供过的 Bot ID
+            hostUrl: "https://messaging.botpress.cloud",
+            messagingUrl: "https://messaging.botpress.cloud",
+            showPoweredBy: false,
+            enableConversationDeletion: false
+          });
+          webchatInitialized = true;
+        }
+
+        // 打开/关闭 Webchat
+        window.botpressWebChat.toggle();
+
+        // 发送自定义事件给 Bot，把 entry 传过去
+        window.botpressWebChat.sendEvent({
+          type: 'custom',
+          channel: 'web',
+          payload: { entry: entry }
         });
-        webchatInitialized = true;
-      }
-
-      // 打开 Webchat
-      window.botpressWebChat.toggle();
-
-      // 发送自定义事件把 entry 传给 Bot
-      window.botpressWebChat.sendEvent({
-        type: 'custom',
-        channel: 'web',
-        payload: { entry: entry }
       });
     });
   </script>
