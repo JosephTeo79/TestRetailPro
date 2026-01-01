@@ -14,8 +14,6 @@
 </form>
 
 <!-- 1️⃣ 用 v3.5 -->
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" onload="initBot()"></script>
-
 <script>
 function initBot() {
   if (!window.botpressWebChat) {
@@ -23,10 +21,9 @@ function initBot() {
     return;
   }
 
-  // 2️⃣ 初始化
   window.botpressWebChat.init({
-    botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
-    clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
+    botId: "你的botId",
+    clientId: "你的clientId",
     hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
     messagingUrl: "https://messaging.botpress.cloud",
     hideWidget: true,
@@ -35,33 +32,18 @@ function initBot() {
   });
 
   window.botpressWebChat.isReady = false;
-
-  // 3️⃣ 监听 READY
   window.botpressWebChat.onEvent((event) => {
-    if (event.type === 'LIFECYCLE.READY') {
+    if(event.type === 'LIFECYCLE.READY'){
       window.botpressWebChat.isReady = true;
       console.log("Botpress Ready");
     }
   });
-
-  // 4️⃣ 表单提交
-  document.getElementById('myform').addEventListener('submit', function(e){
-    e.preventDefault();
-    const detail = { name: this.name.value, email: this.email.value };
-    window.botpressWebChat.sendEvent({ type:'show' });
-
-    const sendPayload = () => {
-      if(window.botpressWebChat.isReady){
-        window.botpressWebChat.sendPayload({ type:'trigger', payload: detail });
-        console.log("Payload sent:", detail);
-      } else {
-        setTimeout(sendPayload, 50);
-      }
-    };
-    sendPayload();
-  });
 }
 </script>
+
+<!-- 注意：inject.js 必须放在函数定义后 -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" onload="initBot()"></script>
+
 
 </body>
 </html>
