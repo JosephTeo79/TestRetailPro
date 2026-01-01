@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SubMain1 - Retail Pro Prism</title>
-
   <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+    body { font-family: Arial, sans-serif; }
   </style>
 </head>
 
@@ -25,12 +22,11 @@
       hostUrl: "https://cdn.botpress.cloud",
       messagingUrl: "https://messaging.botpress.cloud",
 
-      // ⭐⭐⭐ 重点：告诉 Botpress 当前页面是谁
-      extraData: {
-        entry: "submain1"
+      // ⭐ 重点：告诉 Botpress 当前页面是谁
+      extraProperties: {
+        entry: "submain1"   // Cloud 会识别
       },
 
-      // UI 可选
       showPoweredBy: false,
       enableConversationDeletion: false
     });
