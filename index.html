@@ -113,67 +113,59 @@ Click here to apply!
 </body>
 <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  window.botpressWebChat.init({
-      "composerPlaceholder": "Chat with bot",
-      "botConversationDescription": "This chatbot was built surprisingly fast with Botpress",
-      "botId": "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
-      "hostUrl": "https://cdn.botpress.cloud/webchat/v3.5",
-      "messagingUrl": "https://messaging.botpress.cloud",
-      "clientId": "a77753bd-2319-48dd-a782-9d6ba282b204",
-      "lazySocket": true,
-      "hideWidget":true,
-      "useSessionStorage": true,
-      "enableConversationDeletion": true,
-      "showPoweredBy": true
-  });
-</script>
-
-
-<script>
-var detail;
-var botLoaded = false;
 var botReady = false;
-var submitted = false;
+var detail = null;
 
-function showBot(){
-	console.log("Showing bot....")
-  window.botpressWebChat.sendEvent({type:'show'})
-}
-
-function sendFormInfo(info){
-  console.log("Triggering bot with payload...")
-  window.botpressWebChat.sendPayload({ type: 'trigger', payload:info })
-}
-
-document.getElementById('myform').addEventListener('submit', function(event) {
-  event.preventDefault(); 
-  // Trigger a custom event
-  detail ={
-    name: event.target.name.value,
-    email: event.target.email.value,
-    linkedin: event.target.linkedin.value,
-    message: event.target.message.value,
-    position: "Botbassador"
-  }
-  showBot()
-  console.log("Submitting....")
-  submitted=true;
+// 初始化 Botpress
+window.botpressWebChat.init({
+    botId: "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
+    clientId: "a77753bd-2319-48dd-a782-9d6ba282b204",
+    hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
+    messagingUrl: "https://messaging.botpress.cloud",
+    hideWidget: true,
+    lazySocket: true,
+    useSessionStorage: true,
+    enableConversationDeletion: true,
+    showPoweredBy: true,
+    composerPlaceholder: "Chat with bot"
 });
 
-window.botpressWebChat.onEvent( function (event) {
-	console.log(event)
-  if(event.type === 'LIFECYCLE.LOADED'){
- 		botLoaded = true;
-  	}
-  else if(event.type === 'LIFECYCLE.READY'){
- 		botReady = true;
-    if(botLoaded && botReady && submitted){
-      sendFormInfo(detail)
-      }
-  	}
-},['LIFECYCLE.LOADED', 'LIFECYCLE.READY']
-)
+// 等 bot ready
+window.botpressWebChat.onEvent((event) => {
+    if(event.type === 'LIFECYCLE.READY') {
+        botReady = true;
+        console.log('Botpress Ready');
+        // 如果表单已经提交过，发送 payload
+        if(detail) sendPayload(detail);
+    }
+});
 
+// 显示聊天窗口 + 发送 payload
+function sendPayload(payload) {
+    if(!botReady) return;
+    window.botpressWebChat.sendEvent({ type: 'show' });
+    window.botpressWebChat.sendPayload({ type: 'trigger', payload: payload });
+    console.log("Payload sent:", payload);
+}
 
+// 表单提交
+document.getElementById('myform').addEventListener('submit', function(e){
+    e.preventDefault();
+    detail = {
+        name: this.name.value,
+        email: this.email.value,
+        linkedin: this.linkedin ? this.linkedin.value : "",
+        message: this.message ? this.message.value : "",
+        position: "Botbassador"
+    };
+
+    if(botReady){
+        sendPayload(detail);
+    } else {
+        console.log("Bot not ready yet, waiting...");
+        // 等待 bot ready 时会自动触发 sendPayload
+    }
+});
 </script>
+
 </html>
