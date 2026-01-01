@@ -2,42 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Botpress Hardcoded Trigger</title>
+  <title>Botpress Test</title>
 </head>
 <body>
 
 <button id="triggerBotAction1">Button1</button>
 <button id="triggerBotAction2">Button2</button>
 
+<iframe id="bot-iframe" style="display:none; position:fixed; bottom:100px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; z-index:1000;"></iframe>
+
 <script>
-  // 延迟加载 inject.js
-  const script = document.createElement('script');
-  script.src = "https://cdn.botpress.cloud/webchat/v3.5/inject.js";
-  script.async = true;
-  script.onload = () => {
-    if (!window.botpressWebChat) {
-      console.error("Botpress failed to load: check HTTPS or hosting");
-      return;
+  const botIframe = document.getElementById('bot-iframe');
+  const botBaseUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html";
+  const botConfigUrl = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+
+  // 模拟原来的 on 'webchat:ready'
+  console.log("Webchat is ready (simulated, using iframe)");
+
+  // triggerBotAction1 点击事件
+  document.getElementById('triggerBotAction1').addEventListener('click', async () => {
+    const customerPayload = { trigger: "action1" };
+    console.log('Sending payload:', customerPayload);
+
+    // iframe 懒加载 + 显示
+    if (!botIframe.src) {
+      botIframe.src = `${botBaseUrl}?configUrl=${encodeURIComponent(botConfigUrl)}&trigger=${customerPayload.trigger}`;
     }
+    botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
+  });
 
-    // 初始化 Webchat
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"
-    });
+  // triggerBotAction2 点击事件
+  document.getElementById('triggerBotAction2').addEventListener('click', async () => {
+    const customerPayload = { trigger: "action2" };
+    console.log('Sending payload:', customerPayload);
 
-    console.log("Webchat is ready");
-
-    document.getElementById('triggerBotAction1').addEventListener('click', async () => {
-      await window.botpressWebChat.sendEvent({ type: "proactive-trigger", payload: { trigger: "action1" } });
-      console.log("Sent action1");
-    });
-
-    document.getElementById('triggerBotAction2').addEventListener('click', async () => {
-      await window.botpressWebChat.sendEvent({ type: "proactive-trigger", payload: { trigger: "action2" } });
-      console.log("Sent action2");
-    });
-  };
-  document.body.appendChild(script);
+    if (!botIframe.src) {
+      botIframe.src = `${botBaseUrl}?configUrl=${encodeURIComponent(botConfigUrl)}&trigger=${customerPayload.trigger}`;
+    }
+    botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
+  });
 </script>
 
 </body>
