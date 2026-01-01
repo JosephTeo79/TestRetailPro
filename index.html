@@ -1,93 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Botpress Demo – Stable Version</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Pro Prism</title>
+<link rel="icon" type="image/png" href="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png">
+<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/treeview.css">
+<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/tab-style.css">
+<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/future-updates.css">
+<link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/style1.css">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background: #f4f4f4;
-    }
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
+</script>
+<!-- Lunr.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
 
-    #myform {
-      max-width: 500px;
-      background: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,.1);
-    }
-
-    input, button {
-      width: 100%;
-      padding: 0.6rem;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-
-    button {
-      background: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #0056b3;
-    }
-
-    /* 固定右下角 bot */
-    #botpress-frame {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 380px;
-      height: 600px;
-      border: none;
-      z-index: 9999;
-      display: none;
-    }
-  </style>
+<style>
+  #bot-button { position:fixed; bottom:90px; right:20px; z-index:1000; background:#007bff; color:#fff; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer; }
+  #bot-iframe { position:fixed; bottom:160px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; display:none; z-index:999; }
+</style>
 </head>
 <body>
 
-<h2>Botpress Demo (Guaranteed Working)</h2>
+<!-- MOBILE HEADER -->
+<div id="mobile-header">
+  <img src="https://josephteo79.github.io/shared-library/v1.0/icon/Integrated_Retail_Logo.png" class="header-icon" alt="Logo">
+  <h1>Retail Pro Prism</h1>
+  <button id="hamburger">&#9776;</button>
+</div>
 
-<form id="myform">
-  <input name="name" placeholder="Your Name" required />
-  <input name="email" type="email" placeholder="Your Email" required />
-  <button type="submit">Open Chatbot</button>
-</form>
+<!-- MOBILE DRAWER -->
+<div id="mobile-drawer">
+  <div class="drawer-header">
+    <img src="https://josephteo79.github.io/shared-library/v1.0/icon/Integrated_Retail_Logo.png" class="drawer-logo">
+    <h2>Retail Pro Prism</h2>
+  </div>
+  <ul>
+    <li> <a href="#" data-url="introduction.html" class="nav-link">
+      <img src="https://josephteo79.github.io/shared-library/v1.0/icon/pdf.png" class="image">Introduction </a> </li>
+    <li><span class="caret">Front Office</span>
+      <ul class="nested">
+        <li><a href="#" data-url="FrontOffice/POS_Training_Document.pdf" class="nav-link"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/pdf.png" class="image">POS Training Document</a></li>
+        <li><a href="#" data-title="Login Logout" data-resource="FrontOffice/Login_Logout" class="nav-link"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/pdf.png" class="image">Login Logout</a></li>
+        <li><a href="#" data-title="Open Register" data-resource="FrontOffice/Open_Register" class="nav-link"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/pdf.png" class="image">Open Register</a></li>
+      </ul>
+    </li>
+    <li><span class="caret">Back Office</span>
+      <ul class="nested"></ul>
+    </li>
+    <li><a href="#" data-url="notebooklm.html" class="nav-link"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/NoteBooklm.png" class="image">Support Handbook</a></li>
+  </ul>
 
-<!-- Botpress Shareable iframe -->
-<iframe
-  id="botpress-frame"
-  src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?botId=a513dc7b-a61b-4a0e-b0c2-79292f0f64b8">
-</iframe>
+  <div class="future-updates">
+    <div class="icon">🚀</div>
+    <h2 class="title">More Content Coming Soon</h2>
+    <p class="subtitle">Stay tuned for updates!</p>
+  </div>
+
+  <div class="bottom-area">
+    <div id="floating-widget-left">
+      <a href="https://integratedretail.com/" target="_blank"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png" alt="Company"></a>
+      <a href="https://wa.me/6589467929" target="_blank"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/whatsapp.png" alt="WhatsApp"></a>
+      <a href="mailto:joseph.teo@integratedretail.com"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/email.png" alt="Email"></a>
+      <a href="https://integratedretail.raiseaticket.com/"><img src="https://josephteo79.github.io/shared-library/v1.0/icon/raiseaticket.png" alt="RaiseATicket"></a>
+    </div>
+    <h2 class="footer-title">Retail Pro Prism</h2>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div id="container">
+  <div id="left-pane">
+    <div class="header-title">
+      <img src="https://josephteo79.github.io/shared-library/v1.0/icon/Integrated_Retail_Logo.png" class="header-icon">
+    </div>
+    <div id="left-menu-scroll">
+      <!-- 左侧菜单同上 -->
+    </div>
+  </div>
+  <div id="divider"></div>
+  <div id="right-pane">
+    <div id="tab-bar"></div>
+    <div id="tab-content"></div>
+  </div>
+</div>
+
+<!-- Tidio 浮窗 -->
+<div id="tidio-container"></div>
+
+<!-- Botpress -->
+<button id="bot-button">💬</button>
+<iframe id="bot-iframe"></iframe>
+
+<!-- JS 文件 -->
+<script src="https://josephteo79.github.io/shared-library/v1.0/js/tab_search.js"></script>
+<script src="https://josephteo79.github.io/shared-library/v1.0/js/treeview.js"></script>
+<script src="https://josephteo79.github.io/shared-library/v1.0/js/shortcut.js"></script>
 
 <script>
-  const form = document.getElementById('myform');
-  const botFrame = document.getElementById('botpress-frame');
+document.addEventListener('DOMContentLoaded', function() {
+  // 初始化 Introduction tab
+  openTab('Introduction', 'introduction.html');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  // Tidio
+  window.tidioChatApi = window.tidioChatApi || {};
+  window.tidioChatApi.display = true;
+  (function() {
+    var tidioScript = document.createElement("script");
+    tidioScript.src = "https://code.tidio.co/el1smokzuytb5rnzo3sfug7mgtwdxcry.js";
+    tidioScript.async = true;
+    document.body.appendChild(tidioScript);
+  })();
 
-    const name = form.name.value;
-    const email = form.email.value;
-
-    console.log('Form submitted:', name, email);
-
-    // 显示 bot
-    botFrame.style.display = 'block';
-
-    alert(
-      "Bot opened successfully.\n\n" +
-      "Form data is collected on the website side.\n" +
-      "Botpress iframe is stable and running."
-    );
+  // Hamburger drawer
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobile-drawer');
+  if (hamburger && drawer) {
+    hamburger.addEventListener('click', () => drawer.classList.toggle('open'));
+  }
+  drawer.querySelectorAll('.caret').forEach(caret => {
+    caret.addEventListener('click', e => {
+      e.stopPropagation();
+      const nested = caret.nextElementSibling;
+      if (nested) nested.classList.toggle('nested-open');
+    });
   });
+  drawer.querySelectorAll('a.nav-link').forEach(link => {
+    link.addEventListener('click', () => drawer.classList.remove('open'));
+  });
+
+  // =======================
+  // Botpress – SubMain 传资料版
+  // =======================
+  const botButton = document.getElementById('bot-button');
+  const botIframe = document.getElementById('bot-iframe');
+  let botLoaded = false;
+
+  function buildBotUrl() {
+    const params = new URLSearchParams({
+      source: 'submain',
+      page: 'Retail Pro Prism',
+      module: 'FrontOffice',
+      userName: 'Joseph Teo',
+      userEmail: 'hai2022my@gmail.com'
+    });
+    return 'https://cdn.botpress.cloud/webchat/v3.5/shareable.html' +
+           '?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json' +
+           '&' + params.toString();
+  }
+
+  botButton.addEventListener('click', function() {
+    if (botIframe.style.display === 'none' || botIframe.style.display === '') {
+      if (!botLoaded) {
+        botIframe.src = buildBotUrl();
+        botLoaded = true;
+      }
+      botIframe.style.display = 'block';
+    } else {
+      botIframe.style.display = 'none';
+    }
+  });
+});
 </script>
 
 </body>
