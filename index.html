@@ -1,58 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retail Pro Prism MVP</title>
-<style>
-  #bot-button {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    z-index: 1000;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  #bot-iframe {
-    position: fixed;
-    bottom: 160px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: block;
-    z-index: 999;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botpress - Get User Data Template</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .info-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 { color: #333; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
+  <h1>Get User Data Template</h1>
 
-<h1>Retail Pro Prism MVPc</h1>
+  <div class="info-box">
+    <h3>User Data Sent to Bot</h3>
+    <p><strong>Email:</strong> <span id="user-email">test.user@example.com</span></p>
+    <p><strong>Page:</strong> <span id="page-name">Homepage</span></p>
+    <p><strong>Category:</strong> <span id="category">general</span></p>
+  </div>
 
-<button id="bot-button">💬</button>
+  <!-- Botpress Webchat -->
+  <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
 
-<!-- iframe embed + URL trigger -->
-<iframe id="bot-iframe"
-  src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&trigger=form1&page=Retail%20Pro%20Prism&userName=Joseph%20Teo&userEmail=hai2022my@gmail.com"
-  style="display:block;">
-</iframe>
+  <script>
+    // Initialize Botpress
+    window.botpress.init({
+      "botId": "a513dc7b-a61b-4a0e-b0c2-79292f0f64b8",
+      "clientId": "a77753bd-2319-48dd-a782-9d6ba282b204",
+      "configuration": {
+        "botName": "Assistant",
+        "color": "#3498db"
+      }
+    });
 
-<script>
-  const botButton = document.getElementById('bot-button');
-  const botIframe = document.getElementById('bot-iframe');
+    // When webchat is ready
+    window.botpress.on('webchat:initialized', () => {
+      console.log('✅ Webchat initialized');
 
-  // 点击按钮切换聊天窗口显示/隐藏
-  botButton.addEventListener('click', () => {
-    botIframe.style.display = (botIframe.style.display === 'none') ? 'block' : 'none';
-  });
-</script>
+      // STEP 1: Update User with data
+      window.botpress.updateUser({
+        data: {
+          email: "test.user@example.com",
+          page_name: "Homepage",
+          category: "general",
+          timestamp: new Date().toISOString()
+        }
+      });
+
+      console.log('✅ User data sent to bot:', {
+        email: "test.user@example.com",
+        page_name: "Homepage",
+        category: "general"
+      });
+    });
+  </script>
+
 
 </body>
 </html>
