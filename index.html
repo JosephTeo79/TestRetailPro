@@ -1,42 +1,21 @@
-<!-- SubMain.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>SubMain</title>
-<style>
-#bot-button { position: fixed; bottom: 20px; right: 20px; width:60px; height:60px; border-radius:50%; background:#007bff; color:#fff; font-size:24px; border:none; cursor:pointer; }
-#bot-iframe { position:fixed; bottom:90px; right:20px; width:400px; height:500px; border:1px solid #ccc; border-radius:8px; display:none; }
-</style>
 </head>
 <body>
-
 <h1>SubMain Page</h1>
-<button id="bot-button">💬</button>
-<iframe id="bot-iframe"></iframe>
+
+<!-- 打开 Botpress -->
+<iframe id="bot-iframe" style="width:400px;height:500px;border:1px solid #ccc;"></iframe>
 
 <script>
-const botButton = document.getElementById('bot-button');
-const botIframe = document.getElementById('bot-iframe');
-const entry = "SubMain"; // ✅ 你想显示的名字
-const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+const entry = "SubMain"; // 你想显示的名字
+const botUrlBase = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
-botButton.addEventListener('click', () => {
-  if (botIframe.style.display === 'none') {
-    botIframe.src = botUrl;
-    botIframe.style.display = 'block';
-    botIframe.onload = () => {
-      botIframe.contentWindow.postMessage({
-        type: 'custom',
-        channel: 'web',
-        payload: { entry: entry } // ✅ 关键：把 entry 发送给 Botpress
-      }, '*');
-    };
-  } else {
-    botIframe.style.display = 'none';
-  }
-});
+// 把 entry 放进 URL 参数
+document.getElementById('bot-iframe').src = `${botUrlBase}&entry=${entry}`;
 </script>
-
 </body>
 </html>
