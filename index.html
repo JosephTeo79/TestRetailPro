@@ -23,24 +23,31 @@
 
 <button id="triggerBotAction1">Button1</button>
 <button id="triggerBotAction2">Button2</button>
-<iframe id="bot-iframe" style="display:none;width:400px;height:500px;"></iframe>
-<script scr="https://cdn.botpress.cloud/webchat/v2.S/inject.js"></script>
-<script>
-const botIframe = document.getElementById("bot-iframe");
-const configUrl = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
-document.getElementById("triggerBotAction1").onclick = () => {
-  botIframe.src = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${configUrl}&trigger=action1`;
-  botIframe.style.display = "block";
-  console.log("Opened Webchat iframe with trigger=action1");
-};
-
-document.getElementById("triggerBotAction2").onclick = () => {
-  botIframe.src = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${configUrl}&trigger=action2`;
-  botIframe.style.display = "block";
-  console.log("Opened Webchat iframe with trigger=action2");
-};
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"
+        data-bot-id="XSX123E9"
+        data-config-url="https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json">
 </script>
+
+<script>
+  window.botpressWebChat = window.botpressWebChat || {};
+  window.botpressWebChat.onLoad = function () {
+    console.log("Webchat loaded");
+
+    document.getElementById('triggerBotAction1').addEventListener('click', async () => {
+      const customerPayload = { trigger: "action1" };
+      console.log("Sending payload:", customerPayload);
+      await window.botpressWebChat.sendEvent(customerPayload);
+    });
+
+    document.getElementById('triggerBotAction2').addEventListener('click', async () => {
+      const customerPayload = { trigger: "action2" };
+      console.log("Sending payload:", customerPayload);
+      await window.botpressWebChat.sendEvent(customerPayload);
+    });
+  };
+</script>
+
 
 
 </body>
