@@ -29,28 +29,36 @@
 
 <button id="bot-button">💬</button>
 
-<!-- Botpress Webchat v1 -->
-<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<!-- Botpress Webchat v3 -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  const entry = "SubMain"; 
-  let webchatInitialized = false;
+const entry = "SubMain";
+let botInitialized = false;
 
-  const botButton = document.getElementById('bot-button');
-  botButton.addEventListener('click', () => {
-    if (!webchatInitialized) {
-      window.botpressWebChat.init({
-        botId: 'XSX123E9',
-        hostUrl: 'https://messaging.botpress.cloud',
-        showPoweredBy: false,
-        enableConversationDeletion: false,
-        extraParams: { entry }   // ✅ 这里把 entry 传给 Flow
-      });
-      webchatInitialized = true;
-    }
+const botButton = document.getElementById('bot-button');
+botButton.addEventListener('click', () => {
+  if (!botInitialized) {
+    window.botpressWebChat.init({
+      botId: "XSX123E9",
+      hostUrl: "https://messaging.botpress.cloud",
+      messagingUrl: "https://messaging.botpress.cloud",
+      showPoweredBy: false,
+      enableConversationDeletion: false,
+      extraData: { entry } // ✅ 传递给 Flow
+    });
+    botInitialized = true;
+  }
 
-    // v1 版本唯一打开/关闭方法
-    window.botpressWebChat.toggle();
+  // ✅ 打开聊天窗口
+  window.botpressWebChat.open();
+
+  // 可选：发送事件给 Flow
+  window.botpressWebChat.sendEvent({
+    type: "custom",
+    channel: "web",
+    payload: { entry }
   });
+});
 </script>
 
 </body>
