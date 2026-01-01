@@ -22,6 +22,17 @@
     cursor: pointer;
     z-index: 1000;
   }
+  #bot-iframe {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: none;
+    z-index: 999;
+  }
 </style>
 </head>
 <body>
@@ -30,37 +41,23 @@
 <p>这里是 SubMain 内容。</p>
 
 <button id="bot-button">💬</button>
-
-<!-- Botpress Webchat JS -->
-<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<iframe id="bot-iframe"></iframe>
 
 <script>
   const entry = "submain"; // 你想传给 Bot 的 entry
-  let webchatInitialized = false;
+  const botIframe = document.getElementById('bot-iframe');
+  const botButton = document.getElementById('bot-button');
 
-  document.getElementById('bot-button').addEventListener('click', () => {
-    if (!webchatInitialized) {
-      // 初始化 Botpress Webchat
-      window.botpressWebChat.init({
-        botId: "XSX123E9",                     // <-- 你的 Bot ID
-        hostUrl: "https://messaging.botpress.cloud",
-        messagingUrl: "https://messaging.botpress.cloud",
-        showPoweredBy: false,
-        enableConversationDeletion: false,
-        extraData: { entry }                    // 传给 Bot
-      });
-      webchatInitialized = true;
+  // Botpress shareable.html 的 URL
+  const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&entry=${entry}`;
+
+  botButton.addEventListener('click', () => {
+    if (botIframe.style.display === 'none') {
+      botIframe.src = botUrl;  // 第一次点击才设置 src
+      botIframe.style.display = 'block';
+    } else {
+      botIframe.style.display = 'none';
     }
-
-    // 打开 Webchat
-    window.botpressWebChat.open();
-
-    // 发送自定义事件（确保 Bot 收到 entry）
-    window.botpressWebChat.sendEvent({
-      type: 'custom',
-      channel: 'web',
-      payload: { entry }
-    });
   });
 </script>
 
