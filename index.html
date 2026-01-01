@@ -17,20 +17,26 @@
 
 <h2>Botpress Trigger Test</h2>
 
-<div id="bot-container" style="position: fixed; bottom: 20px; right: 20px; width: 400px; height: 500px; display: none;"></div>
+<div id="bot-container" style="position: fixed; bottom: 20px; right: 20px; width: 400px; height: 500px;"></div>
 
-<button onclick="openBot('action1')">Action 11</button>
-<button onclick="openBot('action2')">Action 22</button>
+<button onclick="openBot('action1')">Button1</button>
+<button onclick="openBot('action2')">Button2</button>
 
 <script>
 const CONFIG_URL = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
 function openBot(triggerName) {
   const container = document.getElementById('bot-container');
-  container.innerHTML = `<iframe src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${encodeURIComponent(CONFIG_URL)}&trigger=${encodeURIComponent(triggerName)}" style="width:100%;height:100%;border:none;"></iframe>`;
-  container.style.display = 'block';
+  container.innerHTML = ''; // 清空旧 iframe
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${encodeURIComponent(CONFIG_URL)}&trigger=${encodeURIComponent(triggerName)}`;
+  iframe.style.width = '100%';
+  iframe.style.height = '100%';
+  iframe.style.border = 'none';
+  container.appendChild(iframe);
 }
 </script>
+
 
 
 
