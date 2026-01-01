@@ -6,30 +6,25 @@
   <title>SubMain1 - Retail Pro Prism</title>
   <style>
     body { font-family: Arial, sans-serif; }
+    #bot-iframe { width:400px; height:500px; border:1px solid #ccc; border-radius:8px; display:block; }
   </style>
 </head>
-
 <body>
   <h1>SubMain1 Page</h1>
   <p>这里是 SubMain1 内容。</p>
 
-  <!-- ✅ Botpress 官方 Webchat -->
-  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+  <!-- Botpress iframe -->
+  <iframe id="bot-iframe"></iframe>
 
   <script>
-    window.botpressWebChat.init({
-      botId: "YOUR_BOT_ID",
-      hostUrl: "https://cdn.botpress.cloud",
-      messagingUrl: "https://messaging.botpress.cloud",
-
-      // ⭐ 重点：告诉 Botpress 当前页面是谁
-      extraProperties: {
-        entry: "submain1"   // Cloud 会识别
-      },
-
-      showPoweredBy: false,
-      enableConversationDeletion: false
-    });
+    const entry = "submain1"; // 可以改成 "RetailPro"/"Cegid"/"footfall"
+    
+    // iframe 的 src 指向 shareable.html + configUrl
+    // query string 带上 entry 参数
+    const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&entry=${entry}`;
+    
+    const botIframe = document.getElementById('bot-iframe');
+    botIframe.src = botUrl;
   </script>
 </body>
 </html>
