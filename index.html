@@ -9,46 +9,31 @@
 <button id="triggerBotAction1">Button1</button>
 <button id="triggerBotAction2">Button2</button>
 
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" data-bot-id="XSX123E9" data-config-url="https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"></script>
-
 <script>
-  // 等 inject.js 加载完成
-  window.addEventListener("load", () => {
+  const script = document.createElement('script');
+  script.src = "https://cdn.botpress.cloud/webchat/v3.5/inject.js";
+  script.async = true;
+  script.onload = () => {
     if (!window.botpressWebChat) {
-      console.error("Botpress failed to load");
+      console.error("Botpress failed to load: must be HTTPS");
       return;
     }
 
-    // 初始化 webchat
     window.botpressWebChat.init({
       configUrl: "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"
     });
 
-    // 模拟原本结构
-    console.log("Webchat is ready (on load)");
-
-    // triggerBotAction1
     document.getElementById('triggerBotAction1').addEventListener('click', async () => {
-      const customerPayload = { trigger: "action1" };
-      console.log('Sending payload:', customerPayload);
-
-      await window.botpressWebChat.sendEvent({
-        type: "proactive-trigger",
-        payload: customerPayload
-      });
+      await window.botpressWebChat.sendEvent({ type: "proactive-trigger", payload: { trigger: "action1" } });
+      console.log("Sent action1");
     });
 
-    // triggerBotAction2
     document.getElementById('triggerBotAction2').addEventListener('click', async () => {
-      const customerPayload = { trigger: "action2" };
-      console.log('Sending payload:', customerPayload);
-
-      await window.botpressWebChat.sendEvent({
-        type: "proactive-trigger",
-        payload: customerPayload
-      });
+      await window.botpressWebChat.sendEvent({ type: "proactive-trigger", payload: { trigger: "action2" } });
+      console.log("Sent action2");
     });
-  });
+  };
+  document.body.appendChild(script);
 </script>
 
 </body>
