@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Botpress Hardcoded Trigger</title>
+  <title>Botpress Test</title>
 </head>
 <body>
 
@@ -10,24 +10,10 @@
 <button id="triggerBotAction2">Button2</button>
 
 <script>
-  // 延迟加载 inject.js，确保完全加载
-  const script = document.createElement('script');
-  script.src = "https://cdn.botpress.cloud/webchat/v3.5/inject.js";
-  script.async = true;
-  script.onload = () => {
-    if (!window.botpressWebChat) {
-      console.error("Botpress failed to load after script.onload");
-      return;
-    }
+  // 等 inject.js 加载完成后再执行
+  function onBotpressReady() {
+    console.log('Webchat is ready');
 
-    // 初始化 Webchat
-    window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"
-    });
-
-    console.log("Webchat is ready");
-
-    // btn1 硬编码 action1
     document.getElementById('triggerBotAction1').addEventListener('click', async () => {
       const customerPayload = { trigger: "action1" };
       console.log('Sending payload:', customerPayload);
@@ -38,7 +24,6 @@
       });
     });
 
-    // btn2 硬编码 action2
     document.getElementById('triggerBotAction2').addEventListener('click', async () => {
       const customerPayload = { trigger: "action2" };
       console.log('Sending payload:', customerPayload);
@@ -48,7 +33,25 @@
         payload: customerPayload
       });
     });
+  }
 
+  // 动态加载 inject.js
+  const script = document.createElement('script');
+  script.src = "https://cdn.botpress.cloud/webchat/v3.5/inject.js";
+  script.async = true;
+  script.onload = () => {
+    if (!window.botpressWebChat) {
+      console.error("Botpress failed to load");
+      return;
+    }
+
+    // 初始化 Webchat
+    window.botpressWebChat.init({
+      configUrl: "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json"
+    });
+
+    // 模拟你原来的 on('webchat:ready')
+    onBotpressReady();
   };
   document.body.appendChild(script);
 </script>
