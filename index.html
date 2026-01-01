@@ -5,17 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Botpress Trigger Test</title>
 <style>
-  #bot-iframe {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: none;
-    z-index: 9999;
-  }
   button { margin: 10px; padding: 10px 20px; font-size: 16px; }
 </style>
 </head>
@@ -31,24 +20,28 @@
 
 <script>
   window.botpressWebChat = window.botpressWebChat || {};
+
   window.botpressWebChat.onLoad = function () {
     console.log("Webchat loaded");
 
+    const sendTrigger = async (actionName) => {
+      const payload = {
+        type: "proactive-trigger",   // 必须
+        payload: { action: actionName } // 必须
+      };
+      console.log("Sending payload:", payload);
+      await window.botpressWebChat.sendEvent(payload);
+    };
+
     document.getElementById('triggerBotAction1').addEventListener('click', async () => {
-      const customerPayload = { trigger: "action1" };
-      console.log("Sending payload:", customerPayload);
-      await window.botpressWebChat.sendEvent(customerPayload);
+      sendTrigger("action1");
     });
 
     document.getElementById('triggerBotAction2').addEventListener('click', async () => {
-      const customerPayload = { trigger: "action2" };
-      console.log("Sending payload:", customerPayload);
-      await window.botpressWebChat.sendEvent(customerPayload);
+      sendTrigger("action2");
     });
   };
 </script>
-
-
 
 </body>
 </html>
