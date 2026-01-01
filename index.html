@@ -3,24 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Botpress Trigger via Button</title>
+<title>Botpress Trigger Test</title>
 <style>
-  button {
-    margin: 10px;
-    padding: 12px 24px;
-    font-size: 16px;
-    cursor: pointer;
+  #bot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    z-index: 9999;
   }
+  button { margin: 10px; padding: 10px 20px; font-size: 16px; }
 </style>
 </head>
 <body>
 
-<h2>Botpress Trigger Test</h2>
+<button onclick="openBot('action1')">Button1a</button>
+<button onclick="openBot('action2')">Button2a</button>
 
-<div id="bot-container" style="position: fixed; bottom: 20px; right: 20px; width: 400px; height: 500px;"></div>
-
-<button onclick="openBot('action1')">Button1</button>
-<button onclick="openBot('action2')">Button2</button>
+<div id="bot-container"></div>
 
 <script>
 const CONFIG_URL = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
@@ -36,9 +37,6 @@ function openBot(triggerName) {
   container.appendChild(iframe);
 }
 </script>
-
-
-
 
 </body>
 </html>
