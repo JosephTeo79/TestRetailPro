@@ -3,38 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Botpress Trigger Test</title>
+<title>Botpress Trigger Demo</title>
 <style>
-  #bot-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
-    z-index: 9999;
-  }
-  button { margin: 10px; padding: 10px 20px; font-size: 16px; }
+  button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
 </style>
 </head>
 <body>
-<button onclick="openBot('action1')">Button1</button>
-<button onclick="openBot('action2')">Button2</button>
 
-<div id="bot-container"></div>
+<h1>Botpress Trigger Test</h1>
+<button id="triggerBotAction1">Trigger Action 1</button>
+<button id="triggerBotAction2">Trigger Action 2</button>
 
+<!-- Webchat SDK -->
+<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-const CONFIG_URL = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
+  // 初始化 Webchat
+  window.botpressWebChat.init({
+      botId: "XSX123E9",  // 改成你的 botId
+      hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
+      messagingUrl: "https://messaging.botpress.cloud",
+      hideWidget: true,     // 默认不显示 widget
+      lazySocket: true,
+      useSessionStorage: true
+  });
 
-function openBot(trigger) {
-  const container = document.getElementById('bot-container');
-  container.innerHTML = ''; // 删除旧 iframe
-  const iframe = document.createElement('iframe');
-  iframe.src = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${encodeURIComponent(CONFIG_URL)}&trigger=${encodeURIComponent(trigger)}`;
-  iframe.width = '400';
-  iframe.height = '500';
-  iframe.style.border = '0';
-  container.appendChild(iframe);
-}
+  // 点击按钮显示 bot 并发送 trigger
+  function triggerBot(action) {
+      // 显示 bot widget
+      window.botpressWebChat.sendEvent({ type: 'show' });
+
+      // 发送自定义 trigger payload
+      window.botpressWebChat.sendPayload({ 
+          type: 'trigger', 
+          payload: { trigger: action } 
+      });
+      console.log("Triggered:", action);
+  }
+
+  document.getElementById('triggerBotAction1').addEventListener('click', () => {
+      triggerBot("action1");
+  });
+
+  document.getElementById('triggerBotAction2').addEventListener('click', () => {
+      triggerBot("action2");
+  });
+
+  // 可选：监听 Webchat 生命周期
+  window.botpressWebChat.onEvent((event) => {
+      if(event.type === 'LIFECYCLE.READY') {
+          console.log("Bot is ready");
+      }
+  });
 </script>
 
 </body>
