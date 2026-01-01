@@ -29,13 +29,14 @@
 
 <button id="bot-button">💬</button>
 
+<!-- ✅ 官方 v3.5 CDN -->
 <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
 const entry = "SubMain";
 let initialized = false;
 
-document.getElementById('bot-button').addEventListener('click', () => {
-  if (!initialized) {
+function initBotpress() {
+  if (!initialized && window.botpressWebChat) {
     window.botpressWebChat.init({
       botId: "XSX123E9",
       hostUrl: "https://messaging.botpress.cloud",
@@ -46,11 +47,21 @@ document.getElementById('bot-button').addEventListener('click', () => {
     });
     initialized = true;
   }
+}
 
-  // ✅ 打开聊天窗口
+document.getElementById('bot-button').addEventListener('click', () => {
+  // 确保 botpressWebChat 已加载
+  if (!window.botpressWebChat) {
+    console.error("Botpress Webchat not loaded yet!");
+    return;
+  }
+
+  initBotpress();
+
+  // 打开聊天窗口
   window.botpressWebChat.open();
 
-  // ✅ 发送自定义事件
+  // 发送自定义事件
   window.botpressWebChat.sendEvent({
     type: "custom",
     channel: "web",
