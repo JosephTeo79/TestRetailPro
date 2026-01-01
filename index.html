@@ -20,6 +20,17 @@
     cursor: pointer;
     z-index: 1000;
   }
+  #bot-iframe {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: none;
+    z-index: 999;
+  }
 </style>
 </head>
 <body>
@@ -27,55 +38,25 @@
 <h1>SubMain Page</h1>
 <p>这里是 SubMain 内容。</p>
 
-<!-- Botpress 按钮 -->
 <button id="bot-button">💬</button>
+<iframe id="bot-iframe"></iframe>
 
-<!-- Botpress Webchat -->
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  // 想显示的 entry 名
-  const entryName = "SubMain";
-
   const botButton = document.getElementById('bot-button');
-  let webchatReady = false;
+  const botIframe = document.getElementById('bot-iframe');
 
-  // 等 Botpress Webchat 完全加载
-  window.addEventListener('bpWebChatReady', () => {
-    console.log('Botpress Webchat ready');
-    webchatReady = true;
-  });
+  // 这里是你的 Botpress 配置 JSON 链接
+  const botConfigUrl = "https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
   botButton.addEventListener('click', () => {
-    if (!webchatReady) {
-      alert('Botpress Webchat not loaded yet. Please wait a few seconds.');
-      return;
+    if (botIframe.style.display === 'none') {
+      // 第一次点击时加载 iframe
+      botIframe.src = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=${encodeURIComponent(botConfigUrl)}&entry=SubMain`;
+      botIframe.style.display = 'block';
+    } else {
+      botIframe.style.display = 'none';
     }
-
-    // 初始化 Webchat（只执行一次）
-    if (!window.botpressWebChat.inited) {
-      window.botpressWebChat.init({
-        botId: "XSX123E9",
-        hostUrl: "https://messaging.botpress.cloud",
-        messagingUrl: "https://messaging.botpress.cloud",
-        showPoweredBy: false,
-        enableConversationDeletion: false
-      });
-      window.botpressWebChat.inited = true;
-    }
-
-    // 打开/切换 Webchat
-    window.botpressWebChat.toggle();
-
-    // 发送自定义事件到 Botpress Flow
-    window.botpressWebChat.sendEvent({
-      type: 'custom',
-      channel: 'web',
-      payload: { entry: entryName }
-    });
   });
-
-  // ✅ 自动打开 Botpress 并发送事件（可选）
-  // window.addEventListener('load', () => botButton.click());
 </script>
 
 </body>
