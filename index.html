@@ -17,22 +17,11 @@
   <iframe id="bot-iframe"></iframe>
 
   <script>
-    const entry = "submain1"; // 可改成 "RetailPro"/"Cegid"/"footfall"
+    // iframe 指向 shareable.html，ConfigUrl 对应你的 shareable.json
+    const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
 
     const botIframe = document.getElementById('bot-iframe');
-
-    // iframe 指向 shareable.html
-    const botUrl = "https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json";
     botIframe.src = botUrl;
-
-    // 等 iframe 加载完成后通过 postMessage 发送 entry 参数
-    botIframe.onload = () => {
-      botIframe.contentWindow.postMessage({
-        type: 'custom_entry',
-        entry: entry
-      }, '*');
-      console.log("Sent entry to iframe:", entry);
-    };
   </script>
 </body>
 </html>
