@@ -1,65 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SubMain - Retail Pro Prism</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SubMain1 - Retail Pro Prism</title>
+  <link rel="icon" type="image/png" href="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png">
 
-<style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; }
-  #bot-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #007bff;
-    color: #fff;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-    z-index: 1000;
-  }
-  #bot-iframe {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 400px;
-    height: 500px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: none;
-    z-index: 999;
-  }
-</style>
-</head>
-
-<body>
-<h1>SubMain Page</h1>
-<p>这里是 SubMain 内容。</p>
-
-<!-- Botpress 按钮 -->
-<button id="bot-button">💬</button>
-<!-- Botpress iframe -->
-<iframe id="bot-iframe"></iframe>
-
-<script>
-  const entry = "submain"; // 给 Bot 传的 entry
-  const botIframe = document.getElementById('bot-iframe');
-  const botButton = document.getElementById('bot-button');
-
-  // Botpress shareable.html + configUrl
-  const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/22/00/20251222001942-XSX123E9.json&entry=${entry}`;
-
-  botButton.addEventListener('click', () => {
-    if (botIframe.style.display === 'none') {
-      botIframe.src = botUrl; // 第一次点击才加载
-      botIframe.style.display = 'block';
-    } else {
-      botIframe.style.display = 'none';
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #bot-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #007bff;
+      color: white;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
     }
-  });
-</script>
+  </style>
+</head>
+<body>
+
+  <h1>SubMain1 Page</h1>
+  <p>这里是 SubMain1 内容。</p>
+
+  <!-- Botpress Webchat 按钮 -->
+  <button id="bot-button">💬</button>
+
+  <!-- Botpress JS -->
+  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+  <script>
+    // 要传给 Bot 的 entry
+    const entry = "submain";
+    let webchatInitialized = false;
+
+    document.getElementById('bot-button').addEventListener('click', () => {
+      if (!webchatInitialized) {
+        // 初始化 Webchat
+        window.botpressWebChat.init({
+          botId: "XSX123E9",            // <-- 你的 Bot ID
+          hostUrl: "https://messaging.botpress.cloud",
+          messagingUrl: "https://messaging.botpress.cloud",
+          showPoweredBy: false,
+          enableConversationDeletion: false,
+          extraData: { entry }          // ✅ 传 entry
+        });
+        webchatInitialized = true;
+      }
+
+      // 打开 Botpress Webchat
+      window.botpressWebChat.open();
+
+      // 发送 custom event 给 Bot（可选）
+      window.botpressWebChat.sendEvent({
+        type: 'custom',
+        channel: 'web',
+        payload: { entry }
+      });
+    });
+  </script>
+
 </body>
 </html>
