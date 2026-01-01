@@ -1,107 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Botpress Botbassador Demo</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 2rem;
-    background-color: #f4f4f4;
-    color: #333;
-  }
-  h1, h2 { text-align: center; }
-  #myform {
-    max-width: 600px;
-    margin: 2rem auto;
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  }
-  label { display:block; margin-bottom:0.5rem; font-weight:bold; }
-  input, textarea {
-    width:100%; padding:0.5rem; margin-bottom:1rem;
-    border:1px solid #ddd; border-radius:5px; font-size:1rem;
-  }
-  button {
-    background-color: #007BFF; color:#fff; padding:0.7rem 1.5rem;
-    font-size:1rem; border:none; border-radius:5px; cursor:pointer;
-    display:block; margin: 0 auto;
-  }
-  button:hover { background-color: #0056b3; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botpress Botbassador Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #444;
+    }
+    #myform {
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    input, textarea {
+      width: 100%; padding: 0.5rem; margin-bottom: 1rem;
+      border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;
+    }
+    button {
+      background-color: #007BFF; color: white;
+      padding: 0.7rem 1.5rem; font-size: 1rem;
+      border: none; border-radius: 5px; cursor: pointer;
+      display: block; margin-left: auto; margin-right: auto;
+    }
+    button:hover { background-color: #0056b3; }
+  </style>
 </head>
 <body>
 
 <h1>Botpress Botbassador Program</h1>
-<h2>Demo Form to Trigger Bot</h2>
+<p style="text-align:center;">
+This is a demo form. Submitting will trigger a Botpress bot with your info!
+</p>
 
 <form id="myform">
-  <label for="name">Full Name1:</label>
+  <label for="name">Your Full Name:</label>
   <input type="text" id="name" name="name" required>
 
-  <label for="email">Email:</label>
+  <label for="email">Email Address:</label>
   <input type="email" id="email" name="email" required>
 
-  <label for="linkedin">LinkedIn URL:</label>
+  <label for="linkedin">Linkedin Profile URL:</label>
   <input type="text" id="linkedin" name="linkedin" required>
 
-  <label for="message">Message:</label>
+  <label for="message">Cover Letter / Application Message:</label>
   <textarea id="message" name="message" rows="5"></textarea>
 
-  <button type="submit">Submit & Trigger Bot</button>
+  <button type="submit">Submit Application</button>
 </form>
 
-<!-- Botpress Webchat v3.5 -->
 <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" onload="initBot()"></script>
-
 <script>
-  function initBot() {
-    window.botpressWebChat.init({
-      botId: "XSX123E9",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
-      messagingUrl: "https://messaging.botpress.cloud",
-      hideWidget: true,
-      lazySocket: true,
-      useSessionStorage: true
-    });
+function initBot() {
+  // 初始化 Botpress
+  window.botpressWebChat.init({
+    botId: "XSX123E9", // <- 替换成你的 Botpress botId
+    hostUrl: "https://cdn.botpress.cloud/webchat/v3.5",
+    messagingUrl: "https://messaging.botpress.cloud",
+    hideWidget: true,
+    lazySocket: true,
+    useSessionStorage: true
+  });
 
-    // 表单提交事件
-    const form = document.getElementById('myform');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const detail = {
-        name: form.name.value,
-        email: form.email.value,
-        linkedin: form.linkedin.value,
-        message: form.message.value,
-        position: "Botbassador"
-      };
-      window.botpressWebChat.sendEvent({ type: 'show' });
+  // 标记 bot 是否 ready
+  window.botpressWebChat.isReady = false;
+  window.botpressWebChat.onEvent((event) => {
+    if(event.type === 'LIFECYCLE.READY'){
+      window.botpressWebChat.isReady = true;
+      console.log('Botpress Ready');
+    }
+  });
 
-      const sendPayloadWhenReady = () => {
-        if (window.botpressWebChat && window.botpressWebChat.isReady) {
-          window.botpressWebChat.sendPayload({ type: 'trigger', payload: detail });
-        } else {
-          setTimeout(sendPayloadWhenReady, 50);
-        }
-      };
-      sendPayloadWhenReady();
-    });
+  // 表单提交事件
+  const form = document.getElementById('myform');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    window.botpressWebChat.onEvent((event) => {
-      if (event.type === 'LIFECYCLE.READY') {
-        window.botpressWebChat.isReady = true;
-        console.log('Botpress Ready');
+    const detail = {
+      name: form.name.value,
+      email: form.email.value,
+      linkedin: form.linkedin.value,
+      message: form.message.value,
+      position: "Botbassador"
+    };
+
+    // 显示聊天窗口
+    window.botpressWebChat.sendEvent({ type: 'show' });
+
+    // 等 bot ready 后发送 payload
+    const sendPayloadWhenReady = () => {
+      if (window.botpressWebChat.isReady) {
+        window.botpressWebChat.sendPayload({ type: 'trigger', payload: detail });
+        console.log("Payload sent:", detail);
+      } else {
+        setTimeout(sendPayloadWhenReady, 50);
       }
-    });
-  }
+    };
+    sendPayloadWhenReady();
+  });
+}
 </script>
-
-<script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js" onload="initBot()"></script>
-
 
 </body>
 </html>
