@@ -31,12 +31,12 @@
 <!-- Botpress Webchat -->
 <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
 <script>
-  const entry = "SubMain"; // 页面标识
-
+  const entry = "SubMain"; // 这个值就是你要显示的 welcome 名称
   const botButton = document.getElementById('bot-button');
   let webchatLoaded = false;
 
   botButton.addEventListener('click', () => {
+    // 初始化 Webchat，只执行一次
     if (!webchatLoaded) {
       window.botpressWebChat.init({
         botId: "XSX123E9",
@@ -49,9 +49,9 @@
     }
 
     // 打开 Webchat
-    window.botpressWebChat.toggle(); // v3.5 版本 toggle 自动 open/close
+    window.botpressWebChat.toggle(); 
 
-    // 发事件到 Botpress Flow
+    // 发送自定义事件，传递 entry 给 Flow
     window.botpressWebChat.sendEvent({
       type: 'custom',
       channel: 'web',
