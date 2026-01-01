@@ -4,8 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SubMain1 - Retail Pro Prism</title>
+  <link rel="icon" type="image/png" href="https://josephteo79.github.io/shared-library/v1.0/icon/favicon.png">
+  <link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/treeview.css">
+  <link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/tab-style.css">
+  <link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/future-updates.css">
+  <link rel="stylesheet" href="https://josephteo79.github.io/shared-library/v1.0/css/style1.css">
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
+    body { font-family: Arial, sans-serif; }
     #bot-button {
       position: fixed;
       bottom: 20px;
@@ -20,45 +26,38 @@
       cursor: pointer;
       z-index: 1000;
     }
-    #bot-iframe {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 400px;
-      height: 500px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      display: none;
-      z-index: 999;
-    }
   </style>
 </head>
 <body>
   <h1>SubMain1 Page</h1>
   <p>这里是 SubMain1 内容。</p>
 
-  <!-- Botpress Webchat -->
+  <!-- Botpress Webchat 按钮 -->
   <button id="bot-button">💬</button>
-  <iframe id="bot-iframe"></iframe>
 
+  <!-- Botpress JS -->
+  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
   <script>
-    const botId = "XSX123E9"; // 你的 Bot ID
-    const entry = "submain";   // 想传给 Bot 的 entry
-    const botIframe = document.getElementById('bot-iframe');
+    const entry = "submain"; // 你想显示的 entry 名称
+    let webchatInitialized = false;
+
     const botButton = document.getElementById('bot-button');
-
-    // Webchat URL，直接带 botId 和 entry
-    const botUrl = `https://cdn.botpress.cloud/webchat/v3.5/shareable.html?botId=${botId}&entry=${entry}`;
-
-    let botLoaded = false;
-
     botButton.addEventListener('click', () => {
-      if (!botLoaded) {
-        botIframe.src = botUrl; // 第一次点击加载 iframe
-        botLoaded = true;
+      if (!webchatInitialized) {
+        // 初始化 Webchat
+        window.botpressWebChat.init({
+          botId: "XSX123E9",      // <-- 你的 Bot ID
+          hostUrl: "https://messaging.botpress.cloud",
+          messagingUrl: "https://messaging.botpress.cloud",
+          showPoweredBy: false,
+          enableConversationDeletion: false,
+          extraData: { entry: entry } // 传给 Bot 的 entry
+        });
+        webchatInitialized = true;
       }
-      // 切换显示/隐藏
-      botIframe.style.display = botIframe.style.display === 'none' ? 'block' : 'none';
+
+      // 打开 Webchat
+      window.botpressWebChat.toggle();
     });
   </script>
 </body>
