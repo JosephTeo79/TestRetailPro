@@ -74,18 +74,19 @@
       });
     });
 
-   function clearChat() {
-     const customerPayload={
-trigger:"action1"
-};
-     
+function clearChat() {
   if (window.botpress && window.botpress.sendEvent) {
-    window.botpress.sendEvent(customerPayload);
-    console.log('Chat cleared ✅');
+    window.botpress.sendEvent({
+      type: "trigger",    // 必须是 trigger 类型
+      name: "action1",    // 你在 Botpress Studio 里定义的 trigger 名称
+      payload: {}         // 可选
+    });
+    console.log('Trigger sent ✅');
   } else {
     console.error('Botpress not ready yet!');
   }
 }
+
   </script>
 
 
