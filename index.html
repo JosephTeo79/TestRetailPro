@@ -76,10 +76,12 @@
       });
     });
 
-    document.getElementById('triggerBotAction1').addEventListener('click', async () => {
-    const customerPayload={
-trigger:"action1"
-};
+ document.getElementById('triggerBotAction1').addEventListener('click', async () => {
+    const customerPayload = {
+      type: "trigger", // 必须
+      name: "action1", // Trigger 名称
+      payload: {}      // 可选
+    };
     await window.botpress.sendEvent(customerPayload);
     console.log('Trigger action1 sent ✅');
   });
