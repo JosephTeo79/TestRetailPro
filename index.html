@@ -82,13 +82,15 @@
 window.botpressWebChat.on('webchat:ready', () => {
 document.getElementById('triggerBotAction1').addEventListener('click',async()=>{
 const customerPayload={
-trigger:"action1"
+  type: "trigger",
+      name: "action1",
+      payload: {}
 };
 await window.botpress.sendEvent(customerPayload);
 });
   });
 
-
+;
     
 
 function clearChat() {
