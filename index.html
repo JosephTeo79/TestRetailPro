@@ -33,7 +33,7 @@
 
   <div class="info-box">
     <h3>User Data Sent to Bot</h3>
-    <p><strong>Email:</strong> <span id="user-email">test.user@example.com</span></p>
+    <p><strong>Email4:</strong> <span id="user-email">test.user@example.com</span></p>
     <p><strong>Page:</strong> <span id="page-name">Homepage</span></p>
     <p><strong>Category:</strong> <span id="category">general</span></p>
   </div>
@@ -79,14 +79,14 @@
 
 
 
-window.botpress.on('webchat:ready', () => {
+window.botpress.on('webchat:initialized', () => {
 document.getElementById('triggerBotAction1').addEventListener('click',async()=>{
 const customerPayload={
   type: "trigger",
       name: "action1",
       payload: {}
 };
-await window.botpress.sendEvent(customerPayload);
+window.botpress.sendEvent(customerPayload);
 });
   });
 
