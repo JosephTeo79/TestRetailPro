@@ -38,6 +38,7 @@
     <p><strong>Category:</strong> <span id="category">general</span></p>
   </div>
 
+  <button onclick="clearChat()">clean bot</button>
   <!-- Botpress Webchat -->
   <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
 
@@ -72,6 +73,10 @@
         category: "general"
       });
     });
+
+    function clearChat(){
+      window.botpressWebChat.sendEvent({type:'webchat/reset'})
+    }
   </script>
 
 
