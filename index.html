@@ -104,7 +104,7 @@ function clearChat() {
   if (window.botpress && window.botpress.sendEvent) {
     window.botpress.sendEvent({
       type: "trigger",    // 必须是 trigger 类型
-      name: "action1",    // 你在 Botpress Studio 里定义的 trigger 名称
+      name: "action2",    // 你在 Botpress Studio 里定义的 trigger 名称
       payload: {}         // 可选
     });
     console.log('Trigger sent ✅');
