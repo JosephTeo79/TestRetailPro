@@ -33,7 +33,7 @@
 
   <div class="info-box">
     <h3>User Data Sent to Bot</h3>
-    <p><strong>Email:</strong> <span id="user-email">test.user@example.com</span></p>
+    <p><strong>Email2:</strong> <span id="user-email">test.user@example.com</span></p>
     <p><strong>Page:</strong> <span id="page-name">Homepage</span></p>
     <p><strong>Category:</strong> <span id="category">general</span></p>
   </div>
@@ -59,7 +59,7 @@
     window.botpress.on('webchat:initialized', () => {
       console.log('✅ Webchat initialized');
 
-      // STEP 1: Update User with data
+      // STEP 1: Upd2ate User with data
       window.botpress.updateUser({
         data: {
           email: "test.user@example.com",
@@ -76,15 +76,12 @@
       });
     });
 
- document.getElementById('triggerBotAction1').addEventListener('click', async () => {
-    const customerPayload = {
-      type: "trigger", // 必须
-      name: "action1", // Trigger 名称
-      payload: {}      // 可选
-    };
-    await window.botpress.sendEvent(customerPayload);
-    console.log('Trigger action1 sent ✅');
-  });
+.document.getElementById('triggerBotAction1').addEventListener('click',async()=>{
+const customerPayload={
+trigger:"action1"
+};
+await window.botpress.sendEvent(customerPayload);
+});
 
 function clearChat() {
   if (window.botpress && window.botpress.sendEvent) {
