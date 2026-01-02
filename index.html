@@ -33,7 +33,7 @@
 
   <div class="info-box">
     <h3>User Data Sent to Bot</h3>
-    <p><strong>Email:</strong> <span id="user-email">test.user@example.com</span></p>
+    <p><strong>Email2:</strong> <span id="user-email">test.user@example.com</span></p>
     <p><strong>Page:</strong> <span id="page-name">Homepage</span></p>
     <p><strong>Category:</strong> <span id="category">general</span></p>
   </div>
@@ -76,12 +76,20 @@
       });
     });
 
+
+
+
+window.botpressWebChat.on('webchat:ready', () => {
 document.getElementById('triggerBotAction1').addEventListener('click',async()=>{
 const customerPayload={
 trigger:"action1"
 };
 await window.botpress.sendEvent(customerPayload);
 });
+  });
+});
+
+    
 
 function clearChat() {
   if (window.botpress && window.botpress.sendEvent) {
