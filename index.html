@@ -39,6 +39,8 @@
   </div>
 
   <button onclick="clearChat()">clean bot1</button>
+  <button id="triggerBotAction1">Button1</button>
+  
   <!-- Botpress Webchat -->
   <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
 
@@ -73,6 +75,14 @@
         category: "general"
       });
     });
+
+    document.getElementById('triggerBotAction1').addEventListener('click', async () => {
+    const customerPayload={
+trigger:"action1"
+};
+    await window.botpress.sendEvent(customerPayload);
+    console.log('Trigger action1 sent ✅');
+  });
 
 function clearChat() {
   if (window.botpress && window.botpress.sendEvent) {
