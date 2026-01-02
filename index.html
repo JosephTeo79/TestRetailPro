@@ -74,9 +74,14 @@
       });
     });
 
-    function clearChat(){
-      window.botpressWebChat.sendEvent({type:'webchat/reset'})
-    }
+   function clearChat() {
+  if (window.botpress && window.botpress.sendEvent) {
+    window.botpress.sendEvent({ type: 'webchat/reset' });
+    console.log('Chat cleared ✅');
+  } else {
+    console.error('Botpress not ready yet!');
+  }
+}
   </script>
 
 
